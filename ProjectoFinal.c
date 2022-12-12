@@ -4,7 +4,7 @@ void menu() {
     char escolha;
     printf("*** Inscricao em Exames - MENU ***\n");
     printf("A: Alunos\n");
-    printf("B: Alunos\n");
+    printf("B: Unidades Curriculares\n");
 
     switch (escolha)
     {
