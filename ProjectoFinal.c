@@ -1,24 +1,23 @@
 #include<stdio.h>
 
-void menu() {
+
+//Função Principal do programa
+void main(int argc, char** argv) { 
     char escolha;
     printf("*** Inscricao em Exames - MENU ***\n");
     printf("A: Alunos\n");
     printf("B: Unidades Curriculares\n");
-
+    scanf("%c", &escolha);
     switch (escolha)
     {
-    case /* constant-expression */:
-        /* code */
+    case 'A': // ALUNOS 
+        
         break;
     
-    default:
+     case 'B':
+        UNIDADE* UC;
+        lista_UC("teste.txt", uc );
         break;
     }
-}
 
-
-//Função Principal do programa
-void main(int argc, char** argv) { 
-  exercicio6c();
 }
