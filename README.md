@@ -5,9 +5,9 @@
 
 <ol>
  Alunos:
-  <li>Antonio Sousa</li>
+  <li>Antonio Sousa<a href="https://github.com/asousapt"> Perfil Github</a></li>
   <li>Filipe Fonseca</li>
-  <li>Ines Melo</li>
+  <li>Ines Melo<a href="https://github.com/imttmelo"> Perfil Github</a></li>
   <li>Pedro Rodrigues - <a href="https://github.com/phsrdev"> Perfil Github</a></li></ol>
 
 
