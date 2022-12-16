@@ -66,13 +66,27 @@ void criar_aluno(){
     fclose(arquivo_aluno);//fechando arquivo
 }
 
-// Mostrar aluno
-void mostrar_aluno(ALUNO aluno) {
-  printf("Nome: %s\n", aluno.nome);
-  printf("Regime: %d\n", aluno.regime);
-  printf("Ano: %d\n", aluno.ano_matricula);
-  printf("Numero: %d\n", aluno.numero);
-  printf("Curso: %s\n", aluno.curso);
+// Buscar Aluno no ficheiro.
+void buscar_aluno(char* numero_aluno) {
+    char word[100];
+    char line[100];
+
+    // Abre o arquivo para leitura
+    arquivo_aluno = fopen("alunos.txt", "r");
+    if (arquivo_aluno == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+    }
+    // Enquanto não chegar ao fim do arquivo, lê cada linha do arquivo
+    while (fgets(line, sizeof(line), arquivo_aluno) != NULL)
+    {
+        // Se a palavra for encontrada, imprime a linha
+        if (strstr(line, numero_aluno) != NULL)
+        {
+            printf("%s", line);
+        }
+    }
+    // Fecha o arquivo
+    fclose(arquivo_aluno);
 }
 
 //funcao principal do programa aluno.c
@@ -84,15 +98,19 @@ void main(int argc, char **argv)
     //Criando loop de menu para o usuario
     while (1){
         // apresentando opcoes
-        printf("\nSelecione sua opção:\n[1] Criar aluno:\n[2] Mostrar aluno:\n[3] Atualizar aluno:\n[4] Sair\n");
+        printf("\nSelecione sua opção:\n[1] Criar aluno:\n[2] Buscar Aluno:\n[3] Atualizar aluno:\n[4] Sair\n");
         scanf("%d", &escolha);
         switch (escolha)
         {
         case 1://Criar aluno    
-            arquivo_aluno = fopen("alunos.txt", "a");
+            arquivo_aluno = fopen("alunos.txt", "a");//abre o arquivo com "A", cara criar caso necessario e escrever no final caso ja exista.
             criar_aluno();
             break;
-        case 2:
+        case 2://Buscar Aluno
+            char numero[6];
+            printf("Digite o numero do Aluno:\n");
+            scanf("%s", &numero);
+            buscar_aluno(numero);
             break;
         case 3:
             break;     
