@@ -11,7 +11,7 @@ typedef struct{
     char nome[50]; // nome do aluno
     char curso[6]; /*CONT, EA, EC, EE, EI, EM, GE, GI, MKT, TDM, TDMO, TUR,*/
     int ano_matricula; // 1° 2° ou 3° ano
-    int regime; //ID dos regimes = 1 (normal), 2 (trabalhador estudante), 3 (atleta), 4 (dirigente associativo), 5 (Erasmus)
+    char regime[23]; //ID dos regimes = 1 (normal), 2 (trabalhador estudante), 3 (atleta), 4 (dirigente associativo), 5 (Erasmus)
 }ALUNO;
 
 //CRUD - Create,Read,Update,Delete
@@ -22,25 +22,47 @@ int contador_de_alunos = 0; //contador de alunos
 //Create
 void criar_aluno(){
     ALUNO aluno;
+    fflush(stdin);
     printf("Nome do aluno:\n");
-    scanf("%s", &aluno.nome); //Registrando nome do aluno
+    gets(aluno.nome); //Registrando nome do aluno
     printf("Numero do aluno:\n");
     scanf("%d", &aluno.numero); //Registrando numerdo do aluno
     printf("Escreva o curso do aluno: [CONT, EA, EC, EE, EI, EM, GE, GI, MKT, TDM, TDMO, TUR]\n");
-    scanf("%c", &aluno.curso); //Registrando curso do aluno
+    scanf("%s", &aluno.curso); //Registrando curso do aluno
     printf("Ano de Matricula (APENAS NUMERO): 1, 2 ou 3?\n");
     scanf("%d", &aluno.ano_matricula); //Registrando matricula do aluno
-    printf("Por ultimo qual o regime do aluno?(APENAS NUMEROS)\n1=Normal\n2=Trabalhador Estudante\n3=Atleta\n4=Dirigente Associativo\n5= Erasmus\n");
-    scanf("%d", &aluno.regime); //Registrando regime do aluno
+    //Registrando regime do aluno
+    //Apresentando opcoes
+    int escolha;
+    printf("Qual o regime do aluno?(APENAS NUMEROS)\n1=Normal\n2=Trabalhador Estudante\n3=Atleta\n4=Dirigente Associativo\n5=Erasmus\n");
+    scanf("%d", &escolha);
+    switch (escolha){
+        case 1:    
+            strcpy(aluno.regime, "Normal");
+            break;
+        case 2:
+            strcpy(aluno.regime, "Trabalhador-Estudante");
+            break;
+        case 3:
+            strcpy(aluno.regime, "Atleta");
+            break;    
+        case 4: 
+            strcpy(aluno.regime, "Dirigente-Associativo");
+            break;
+        case 5:
+            strcpy(aluno.regime, "Erasmus");
+            break;    
+        }
+        
     contador_de_alunos++;
     //Retornando sucesso ao usuario
     printf("Aluno %s criado com sucesso!", aluno.nome);
     //escrevendo aluno no arquivo
-    fwrite(&aluno.nome, sizeof(char),sizeof(aluno.nome), arquivo_aluno); //escrevendo nome do aluno
-    fwrite(&aluno.regime, sizeof(char),sizeof(aluno.regime), arquivo_aluno); //escrevendo regime do aluno
-    fwrite(&aluno.ano_matricula, sizeof(int),sizeof(aluno.ano_matricula), arquivo_aluno);//escrevendo ano de matricula do aluno
-    fwrite(&aluno.numero, sizeof(int),sizeof(aluno.numero), arquivo_aluno); //escrevendo numero do aluno
-    fwrite(&aluno.curso, sizeof(char),sizeof(aluno.curso), arquivo_aluno); //escrevendo curso do aluno
+    fprintf(arquivo_aluno, "%s\t", aluno.nome); //escrevendo nome do aluno
+    fprintf(arquivo_aluno, "%s\t", aluno.regime); //escrevendo regime do aluno
+    fprintf(arquivo_aluno, "%d\t", aluno.ano_matricula);//escrevendo ano de matricula do aluno
+    fprintf(arquivo_aluno, "%d\t", aluno.numero); //escrevendo numero do aluno
+    fprintf(arquivo_aluno, "%s\t\n", aluno.curso); //escrevendo curso do aluno
     fclose(arquivo_aluno);//fechando arquivo
 }
 
