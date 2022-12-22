@@ -89,6 +89,26 @@ void buscar_aluno(char* numero_aluno) {
     fclose(arquivo_aluno);
 }
 
+void ler_alunos() {
+  // Abre o arquivo para leitura
+  FILE *arquivo_aluno = fopen("alunos.txt", "r");
+  if (arquivo_aluno == NULL) {
+    printf("Erro ao abrir o arquivo\n");
+    return;
+  }
+
+  // Lê os dados do arquivo e armazena na estrutura "aluno"
+  ALUNO aluno;
+  while (fscanf(arquivo_aluno, "%d %s %s %d %s", &aluno.numero, aluno.nome, aluno.curso, &aluno.ano_matricula, aluno.regime) == 5) {
+    // Aqui você pode fazer alguma coisa com os dados lidos, como adicionar a um vetor de alunos, por exemplo
+    printf("Aluno: %s %s %s %d %s\n", aluno.nome, aluno.curso, aluno.regime, aluno.ano_matricula, aluno.numero);
+  }
+
+  // Fecha o arquivo
+  fclose(arquivo_aluno);
+}
+
+
 //funcao principal do programa aluno.c
 void main(int argc, char **argv)
 {
