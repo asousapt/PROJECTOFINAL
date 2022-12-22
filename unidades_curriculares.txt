@@ -1,33 +1,33 @@
 ID_UC	NOME	DOCENTE RESPONSAVEL	ANO	SEMESTRE
 01	Algoritmos e Programacao	Jorge Loureiro	1	1
-02	Sistemas Digitais	Francisco Francisco	1	1	
+02	Sistemas Digitais	Francisco Francisco	1	1
 03	Tecnologias dos Computadores	Jorge Loureiro	1	1
 04	Algebra	Maria Sousa	1	1
 05	Analise Matematica	Cristina Costa	1	1
 06	Unidade Letiva Base Lucia Sousa	1	1
-07	Arquitecturas de Computador	Nome Nome	1	2
-08	Matematica Discreta	Nome Nome	1	2
-09	Matematica Aplicada	Nome Nome	1	2
-10	Redes de Comunicacao I	Nome Nome	1	2
-11	Estruturas de Dados	Nome Nome	1	2
-12	Programacao Orientada aos Objectos	Nome Nome	2	1
-13	Analise de Sistemas	Nome Nome	2	1
-14	Sistemas Operativos	Nome Nome	2	1
-15	Aplicacoes para a Internet I	Nome Nome	2	1
-16	Usabilidade	Nome	Nome	2	1
-17	Engenharia de Software I	Nome Nome	2	2
-18	Bases de Dados I	Nome Nome	2	2
-19	Aplicacoes para a Internet II Nome Nome	2	2
-20	Redes de Comunicacao I	Nome Nome 2	2
-21	Programacao para Dispositivos Moveis	Nome Nome	2	2
-22	Projeto Integrado	Nome	Nome	2	2
-23	Seguranca Informatica	Nome Nome	3	1
-24	Redes de Comunicacao III	Nome Nome	3	1
-25	Complementos de Sistemas Operativos	Nome Nome	3	1
-26	Bases de Dados II	Nome Nome	3	1
-27	Sistemas Embebidos	Nome Nome	3	1
-28	Sistemas Distribuidos	Nome Nome	3	1
-29	Inteligencia Artificial	Nome Nome	3	2
-30	Engenharia de Software II	Nome Nome	3	2
-31	Empreededorismo e Gestao de Empresas	Nome Nome	3	2
-32	Projeto	Nome Nome	3	2
+07	Arquitecturas de Computador	Joao Pires	1	2
+08	Matematica Discreta	Cristina Costa	1	2
+09	Matematica Aplicada	Maria Sousa	1	2
+10	Redes de Comunicacao I	Jorge Loureiro	1	2
+11	Estruturas de Dados	Francisco Francsico	1	2
+12	Programacao Orientada aos Objectos	Joao Esteves	2	1
+13	Analise de Sistemas	Jose Lopes	2	1
+14	Sistemas Operativos	Antonio Abreu	2	1
+15	Aplicacoes para a Internet I	Luis Morais	2	1
+16	Usabilidade	Miguel Leal	2	1
+17	Engenharia de Software I	Filipe Santos	2	2
+18	Bases de Dados I	Miguel Santos	2	2
+19	Aplicacoes para a Internet II	Jessica Rodrigues	2	2
+20	Redes de Comunicacao I	Ricardo Santos	2	2
+21	Programacao para Dispositivos Moveis	Joao Saraiva	2	2
+22	Projeto Integrado	Gabriel Pereira	2	2
+23	Seguranca Informatica	António Miguel	3	1
+24	Redes de Comunicacao III	Joao Batista	3	1
+25	Complementos de Sistemas Operativos	Luis Filipe	3	1
+26	Bases de Dados II	Otavio Sousa	3	1
+27	Sistemas Embebidos	Joana Lopes	3	1
+28	Sistemas Distribuidos	Ines Lopes	3	1
+29	Inteligencia Artificial	Francisco Sousa	3	2
+30	Engenharia de Software II	Fernando Fernandes	3	2
+31	Empreededorismo e Gestao de Empresas	Jorge Fernandes	3	2
+32	Projeto	Jorge Mendes	3	2
