@@ -1,5 +1,5 @@
-ID_UC	NOME	DOCENTE RESPONSAVEL	ANO	SEMESTRE
-01	Algoritmos e Programacao	Jorge Loureiro	1	1
+ID_UC	NOME	DOCENTERESPONSAVEL	ANO	SEMESTRE
+01  Algoritmos e Programacao    Jorge Loureiro  1   1
 02	Sistemas Digitais	Francisco Francisco	1	1	
 03	Tecnologias dos Computadores	Jorge Loureiro	1	1
 04	Algebra	Maria Sousa	1	1
@@ -15,7 +15,7 @@ ID_UC	NOME	DOCENTE RESPONSAVEL	ANO	SEMESTRE
 14	Sistemas Operativos	Nome Nome	2	1
 15	Aplicacoes para a Internet I	Nome Nome	2	1
 16	Usabilidade	Nome	Nome	2	1
-17	Engenharia de Software I	Nome Nome	2	2
+17	Engenharia de Software I    Nome Nome	2	2
 18	Bases de Dados I	Nome Nome	2	2
 19	Aplicacoes para a Internet II Nome Nome	2	2
 20	Redes de Comunicacao I	Nome Nome 2	2

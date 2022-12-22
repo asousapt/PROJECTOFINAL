@@ -1,8 +1,10 @@
 #include<stdio.h>
-
+#include<string.h>
+#define STRING char *
 
 //Função Principal do programa
 void main(int argc, char** argv) { 
+    STRING *V;
     char escolha;
     printf("*** Inscricao em Exames - MENU ***\n");
     printf("A: Alunos\n");
@@ -15,8 +17,7 @@ void main(int argc, char** argv) {
         break;
     
      case 'B':
-        UNIDADE* UC;
-        lista_UC("teste.txt", uc );
+       menu_uc();
         break;
     }
 
