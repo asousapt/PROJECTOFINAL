@@ -1,0 +1,11 @@
+﻿  Exames.c.cpp
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(31,27): error C2440: 'inicializando': não é possível converter de 'const char [3]' para 'char *'
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(31,20): message : A conversão da cadeia de caracteres literal perde o qualificador const (consulte /Zc:strictStrings)
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(71,75): error C2440: '=': não é possível converter de 'void *' para 'char *'
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(71,44): message : Conversão de 'void*' para ponteiro para não 'void' requer uma conversão explícita
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(74,62): error C2440: '=': não é possível converter de 'void *' para 'char *'
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(74,31): message : Conversão de 'void*' para ponteiro para não 'void' requer uma conversão explícita
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(83,61): error C2440: '=': não é possível converter de 'void *' para 'char *'
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(83,30): message : Conversão de 'void*' para ponteiro para não 'void' requer uma conversão explícita
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(101,49): error C2440: 'inicializando': não é possível converter de 'void *' para 'EXAMES *'
+C:\Users\filip\OneDrive - ESTGV\Licenciatura\1Ano\AP\TrabalhoPraticoVersaoA\Exames.c\Exames.c.cpp(101,20): message : Conversão de 'void*' para ponteiro para não 'void' requer uma conversão explícita
