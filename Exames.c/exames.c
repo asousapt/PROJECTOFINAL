@@ -51,7 +51,13 @@ char** Read_Split_Line_File(FILE* f, int* n_campos_lidos) {
 	}
 	*n_campos_lidos = cont;
 	return Res;
+<<<<<<< HEAD
 } }
+=======
+    }
+}
+
+>>>>>>> 6596b61c5f0741ef2061b35bf801ea646438f04e
 //passa para o vetor a informacao dos exames
 void import_txt_exames(EXAMES* exames_bv, char** V) {
 	int i = 0, k, n_campos_lidos;
