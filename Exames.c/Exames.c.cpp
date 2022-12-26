@@ -98,7 +98,7 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 void menu_exames() {
 	STRING* V;
 	printf("Bem-vindo ao menu consulta dos exames\n");
-	EXAMES* exames_bv = malloc(50 * sizeof(EXAMES));
+	EXAMES *exames_bv = malloc(50 * sizeof(EXAMES));
 	import_txt_exames(exames_bv, V);
 
 }

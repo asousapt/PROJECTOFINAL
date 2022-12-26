@@ -50,7 +50,7 @@ void import_txt_uc(UNIDADECURRICULAR *uc, STRING *V){
 	int i=0,k,n_campos_lidos;
 	
 	//Abre o ficheiro
-	FILE *f = fopen("unidades_curriculares.txt","r");
+	FILE *f = fopen("Ficheiros_bv/unidades_curriculares_bv.txt","r");
 	if (f == NULL){
 		printf("Erro ao abrir ficheiro unidades_curriculares.txt");
 		exit(1);
@@ -60,25 +60,27 @@ void import_txt_uc(UNIDADECURRICULAR *uc, STRING *V){
 		V = Read_Split_Line_File(f, &n_campos_lidos);
 		if(V!=NULL){// caso consigamos ler alguma informacao
 
-		
-			uc[i].codigo=atoi(V[0]);
 			
-			uc[i].descricao = malloc(sizeof(char)*(sizeof(V[1])));
+			free(uc[i].descricao);
+			free(uc[i].curso);
+			free(uc[i].docente);
+			
+
+			uc[i].codigo = atoi(V[0]);
+
+			uc[i].descricao = malloc(sizeof(char) * (strlen(V[1]) + 1));
 			strcpy(uc[i].descricao, V[1]);
 
-			uc[i].curso = malloc(sizeof(char)*(sizeof(V[2])));
+			uc[i].curso = malloc(sizeof(char) * (strlen(V[2]) + 1));
 			strcpy(uc[i].curso, V[2]);
+            
+			uc[i].ano = atoi(V[3]);
 
-			uc[i].ano=atoi(V[3]);
+			uc[i].semestre = atoi(V[4]);
 
-			uc[i].semestre=atoi(V[4]);
-			
-			uc[i].curso = malloc(sizeof(char)*(sizeof(V[2])));
+			uc[i].docente = malloc(sizeof(char) * (strlen(V[5]) + 1));
 			strcpy(uc[i].docente, V[5]);
 
-			for (k = 0; k <n_campos_lidos; k++)
-				free (V[k]);
-			free (V);
 			i++;
 		}
 	}while(!feof(f));
@@ -89,9 +91,15 @@ void import_txt_uc(UNIDADECURRICULAR *uc, STRING *V){
 void menu_uc() { 
     STRING *V;
     printf("Bem-vindo ao menu das unidades curriculares\n");
-    UNIDADECURRICULAR *uc = malloc(50*sizeof(UNIDADECURRICULAR));
+    UNIDADECURRICULAR *uc = malloc(100*sizeof(UNIDADECURRICULAR));
     import_txt_uc(uc, V);
+	int i ;
 
+	for ( i = 0 ;i < 50; i++)
+	{
+		printf("%s\n", uc[i].descricao);
+	}
+	
 	
 	
 }
