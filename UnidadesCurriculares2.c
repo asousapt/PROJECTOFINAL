@@ -95,23 +95,15 @@ void criar_uc() {
 	UNIDADECURRICULAR uc;
 	fflush(stdin);
 	printf("Nome da UC:\n");
-	scanf("%s", &uc.descricao); //Registrando nome do aluno
+	scanf("%s", &uc.descricao); //Registar Nome da UC
 	printf("Nome do docente responsavel:\n");
-	scanf("%s", &uc.docente); //Registrando numerdo do aluno
+	scanf("%s", &uc.docente); //Registar docente responsavel
 	printf("Qual o ano (1, 2, 3)?\n");
-	scanf("%d", &uc.ano); //Registrando curso do aluno
+	scanf("%d", &uc.ano); //Registar ano
 	printf("Qual o semestre (1, 2)?\n");
-	scanf("%d", &uc.semestre); //Registrando matricula do aluno
+	scanf("%d", &uc.semestre); //Registar semestre
 
-	//Retornando sucesso ao usuario
 	printf("UC %s criada com sucesso!", uc.descricao);
-	//escrevendo aluno no arquivo
-	//fprintf(arquivo_aluno, "%s\t", aluno.nome); //escrevendo nome do aluno
-	//fprintf(arquivo_aluno, "%s\t", aluno.regime); //escrevendo regime do aluno
-	//fprintf(arquivo_aluno, "%d\t", aluno.ano_matricula);//escrevendo ano de matricula do aluno
-	//fprintf(arquivo_aluno, "%d\t", aluno.numero); //escrevendo numero do aluno
-	//fprintf(arquivo_aluno, "%s\t\n", aluno.curso); //escrevendo curso do aluno
-	//fclose(arquivo_aluno);//fechando arquivo
 }
 
 
