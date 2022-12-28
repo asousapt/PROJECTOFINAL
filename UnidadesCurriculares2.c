@@ -91,20 +91,61 @@ void import_txt_uc(UNIDADECURRICULAR* uc, STRING* V) { //, STRING* V
 	fclose(f);
 }
 
+void criar_uc() {
+	UNIDADECURRICULAR uc;
+	fflush(stdin);
+	printf("Nome da UC:\n");
+	scanf("%s", &uc.descricao); //Registrando nome do aluno
+	printf("Nome do docente responsavel:\n");
+	scanf("%s", &uc.docente); //Registrando numerdo do aluno
+	printf("Qual o ano (1, 2, 3)?\n");
+	scanf("%d", &uc.ano); //Registrando curso do aluno
+	printf("Qual o semestre (1, 2)?\n");
+	scanf("%d", &uc.semestre); //Registrando matricula do aluno
+
+	//Retornando sucesso ao usuario
+	printf("UC %s criada com sucesso!", uc.descricao);
+	//escrevendo aluno no arquivo
+	//fprintf(arquivo_aluno, "%s\t", aluno.nome); //escrevendo nome do aluno
+	//fprintf(arquivo_aluno, "%s\t", aluno.regime); //escrevendo regime do aluno
+	//fprintf(arquivo_aluno, "%d\t", aluno.ano_matricula);//escrevendo ano de matricula do aluno
+	//fprintf(arquivo_aluno, "%d\t", aluno.numero); //escrevendo numero do aluno
+	//fprintf(arquivo_aluno, "%s\t\n", aluno.curso); //escrevendo curso do aluno
+	//fclose(arquivo_aluno);//fechando arquivo
+}
+
+
 void menu_uc() {
 	STRING* V{};
+	int opcao;
+	UNIDADECURRICULAR* uc = (UNIDADECURRICULAR*)malloc(50 * sizeof(UNIDADECURRICULAR));
 
 	printf("Bem-vindo ao menu das unidades curriculares!\n");
-	UNIDADECURRICULAR* uc = (UNIDADECURRICULAR*)malloc(50 * sizeof(UNIDADECURRICULAR));
-	import_txt_uc(uc, V);
-	/*
-	int i;
+	printf("Escolha uma das opcoes:\n");
+	printf("1 - Consultar Unidades Curriculares\n");
+	printf("2 - Adicionar Unidade Curricular\n");
+	printf("0 - Sair\n");
+	printf("Opcao: ");
+	scanf("%d", &opcao);
 
-	for (i = 0; i < 50; i++)
-	{
-		printf("%s\n", uc[i].descricao);
+	switch (opcao) {
+	case 1: 
+		import_txt_uc(uc, V);
+		int i;
+
+		for (i = 0; i < 50; i++)
+		{
+			printf("%s | %s | %d | %d\n", uc[i].descricao, uc[i].docente, uc[i].ano, uc[i].semestre);
+		}
+
+		break;
+	case 2: criar_uc();
+		break;
+	case 0: exit;
 	}
-	*/
+	//import_txt_uc(uc, V);
+	
+
 }
 int main() {
 	menu_uc();
