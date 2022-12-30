@@ -1,6 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+/*
+ * Programa e C para manipular a estrutura UNIDADECURRICULAR
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_CAR 300
 #define STRING char *
@@ -112,15 +115,15 @@ void MenuUC(){
                 char* docente = (char*) malloc(sizeof(char) * MAX_CAR);
                 char* ano = (char*) malloc(sizeof(char) * MAX_CAR);
                 char* semestre = (char*) malloc(sizeof(char) * MAX_CAR);
-                printf("Insira o código da UC: ");
+                printf("Insira o código da UC:\n");
                 scanf("%s", codigo);
-                printf("Insira o código da UC: ");
+                printf("Insira o código da UC:\n");
                 scanf("%s", nome);
-                printf("Insira o nome do docente responsável: ");
+                printf("Insira o nome do docente responsável:\n");
                 scanf("%s", docente);
-                printf("Insira o ano da UC: ");
+                printf("Insira o ano da UC:\n");
                 scanf("%s", ano);
-                printf("Insira o semestre da UC: ");
+                printf("Insira o semestre da UC:\n");
                 scanf("%s", semestre);
                 criarUC(codigo, nome, docente, ano, semestre);
                 break;

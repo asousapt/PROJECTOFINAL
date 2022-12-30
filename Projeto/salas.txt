@@ -1,0 +1,40 @@
+ID	DESIGNACAO	LOTACAO
+A1	Auditorio 1	50
+A2	Auditorio 2	50
+A3	Auditorio 3	50
+S01	Sala 01	15
+S02	Sala 02	15
+S03	Sala 03	15
+S04	Sala 04	20
+S05	Sala 05	20
+S06	Sala 06	25
+S07	Sala 07	25
+S08	Sala 08	25
+S09	Sala 09	25
+S10	Sala 10	25
+S11	Sala 11	25
+S12	Sala 12	25
+S13	Sala 13	20
+S14	Sala 14	20
+S15	Sala 15	20
+S16	Sala 16	20
+S17	Sala 17	20
+S18	Sala 18	25
+S19	Sala 19	25
+S20	Sala 20	25
+S21	Sala 21	25
+S22	Sala 22	25
+SD1	Sala Desenho 1	20
+SD2	Sala Desenho 2	20
+SD3	Sala Desenho 3	20
+SD4	Sala Desenho 4	20
+SD5	Sala Desenho 5	20
+LI1	Lab Inf 1	20
+LI2	Lab Inf 2	20
+LI3	Lab Inf 3	20
+LI4	Lab Inf 4	20
+LI5	Lab Inf 5	20
+LI6	Lab Inf 6	20
+LM	Lab Micro Sistemas	20
+
+99	teste	50

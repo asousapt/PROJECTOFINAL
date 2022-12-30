@@ -16,6 +16,8 @@ void main(int argc, char const *argv[]){
             case 1:
                 menu_alunos();
                 break;
+            case 2:
+                MenuSalas();
             case 3:
                 MenuUC();    
             default:
