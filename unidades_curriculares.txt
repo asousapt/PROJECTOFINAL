@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ID_UC|NOME|DOCENTE RESPONSAVEL|ANO|SEMESTRE
 01|Algoritmos e Programacao|Jorge Loureiro|1|1
 02|Sistemas Digitais|Francisco Francisco|1|1
@@ -33,4 +31,3 @@ ID_UC|NOME|DOCENTE RESPONSAVEL|ANO|SEMESTRE
 30|Engenharia de Software II|Fernando Fernandes|3|2
 31|Empreededorismo e Gestao de Empresas|Jorge Fernandes|3|2
 32|Projeto|Jorge Mendes|3|2
->>>>>>> 04ab6a504927f946c531190f166e93670c0542e2

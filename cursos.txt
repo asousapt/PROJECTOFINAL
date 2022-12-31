@@ -1,0 +1,12 @@
+EE|Engenharia Electrotecnica
+EI|Engenharia Informatica
+EM|Engenharia Mecanica
+CONT|Contabilidade
+GI|Gestao Industrial
+EC|Engenharia Civil
+TDMO|Tecnologia e Desenvolvimento Mobile
+TDM|Tecnologia e Design Multimedia
+MKT|Marketing
+TUR|Tursmo
+GE|Gestao de Empresas
+EA|Engenharia do Ambiente

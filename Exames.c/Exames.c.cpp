@@ -9,6 +9,7 @@
 #define STRING char *
 #define N_CAMPOS_MAX 100
 #define MAX_LINHA_FICHEIRO 300
+#define MAX_EXAMES_FILE 100
 
 
 //definicao da estrutura de unidade curricular 
@@ -22,6 +23,8 @@ typedef struct
 	int duracao;
 	char* sala;
 	int alunos_inscritos;
+	int realizado;
+	int ocupado;
 } EXAMES;
 
 //le uma linha do ficheiro f
@@ -65,13 +68,12 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 		V = Read_Split_Line_File(f, &n_campos_lidos);
 		if (V != NULL) {// caso consigamos ler alguma informacao
 
-
 			exames_bv[i].codigo = atoi(V[0]);
 
-			exames_bv[i].unidade_curricular = malloc(sizeof(char) * (sizeof(V[1])));
+			exames_bv[i].unidade_curricular = (char *)malloc(sizeof(char) * (sizeof(V[1])));
 			strcpy(exames_bv[i].unidade_curricular, V[1]);
 
-			exames_bv[i].epoca = malloc(sizeof(char) * (sizeof(V[2])));
+			exames_bv[i].epoca = (char *)malloc(sizeof(char) * (sizeof(V[2])));
 			strcpy(exames_bv[i].epoca, V[2]);
 
 			exames_bv[i].data = atoi(V[3]);
@@ -80,10 +82,12 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 
 			exames_bv[i].duracao = atoi(V[5]);
 
-			exames_bv[i].sala = malloc(sizeof(char) * (sizeof(V[6])));
+			exames_bv[i].sala = (char *)malloc(sizeof(char) * (sizeof(V[6])));
 			strcpy(exames_bv[i].sala, V[6]);
 
 			exames_bv[i].alunos_inscritos = atoi(V[7]);
+			
+			exames_bv[i].ocupado = 1;
 
 			for (k = 0; k < n_campos_lidos; k++)
 				free(V[k]);
@@ -95,10 +99,14 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 	fclose(f);
 }
 
+void listar_exames(EXAMES* exams){ 
+
+}
+
 void menu_exames() {
 	STRING* V;
-	printf("Bem-vindo ao menu consulta dos exames\n");
-	EXAMES *exames_bv = malloc(50 * sizeof(EXAMES));
+	printf("Bem-vindo ao menu de Exames\n");
+	EXAMES *exames_bv = (EXAMES *)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
 	import_txt_exames(exames_bv, V);
 
 }
