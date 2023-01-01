@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "functions.h"
 
 #define MAX_CAR 300 
 #define STRING char *
@@ -10,26 +11,6 @@
 #define MAX_LINHA_FICHEIRO 300
 #define MAX_UNIDADES_CURRICULARES 100
 #define MAX_CURSOS 20
-
-
-//definicao da estrutura de unidade curricular 
-typedef struct
-{
-	int codigo;
-	char* descricao;
-	char* docente;
-	int ano;
-	int semestre;
-	char* curso;
-	int ocupado;
-}UNIDADECURRICULAR;
-
-//Definicao da estrutura CURSO onde estao as informacoes relativas aos cursos
-typedef struct {
-	char* codcurso; 
-	char* descricao;
-	int ocupado;
-} CURSO; 
 
 //le uma linha do ficheiro f
 //devolve uma string com os campos da linha lida
@@ -292,13 +273,9 @@ void criar_UC(UNIDADECURRICULAR* uc, CURSO* cursos) {
 				}
 }
 
-void menu_uc() {
+void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos) {
 	STRING* V;
 	int opcao;
-	UNIDADECURRICULAR* uc = (UNIDADECURRICULAR*)malloc(MAX_UNIDADES_CURRICULARES * sizeof(UNIDADECURRICULAR));
-	import_txt_uc(uc, V);
-	CURSO* cursos = (CURSO*)malloc(MAX_CURSOS * sizeof(CURSO));
-	import_txt_cursos(cursos, V);
 
 	while(1){
 		printf("\n");
@@ -322,7 +299,8 @@ void menu_uc() {
 			case 3: //Editar unidades curriculares 
 				break; 
 			case 4: //Apagar unidades curriculares
-			case 0: return 0;
+			case 0: 
+				break;
 		}
 	}
 	
