@@ -32,15 +32,16 @@ void main(int argc, char** argv) {
     EXAMES *exames = (EXAMES *)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
 	import_txt_exames(exames, V);
 
-
-    
     /* Termina o carregamento de variaveis em memoria */
-    while(1) {
+    while(&escolha != "Z" && strlen(&escolha) != 1) {
         printf("\n\n");
         printf("*** MENU PRINCIPAL ***\n");
         printf("A: Alunos\n");
         printf("B: Unidades Curriculares\n");
         printf("C: Exames\n");
+        printf("\n");
+        printf("S: Gravar dados em ficheiros\n");
+        printf("Z: Sair\n");
         scanf("%c", &escolha);
         switch (escolha)
         {
@@ -49,10 +50,15 @@ void main(int argc, char** argv) {
             break;
         
         case 'B': // menu das unidades curriculares
-        menu_uc(uc, cursos);
+        menu_uc(uc, cursos, exames);
             break;
         case 'C': // menu de exames
         menu_exames(exames);
+            break;
+        case 'S': // GRava os dados nos ficheiros txt
+            export_UC(uc);
+        case 'Z': // sai do programa 
+            exit(0);
             break;
         }
     }

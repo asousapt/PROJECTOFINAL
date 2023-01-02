@@ -61,7 +61,7 @@ int insere_uc(UNIDADECURRICULAR* uc, char* descricao, char* docente, char* curso
 int get_posicao_vect_UC(UNIDADECURRICULAR* uc);
 int get_newID_UC(UNIDADECURRICULAR* uc);
 int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso);
-void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos);
+void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
 void import_txt_exames(EXAMES* exames_bv, STRING* V);
 void menu_exames(EXAMES* exames_bv);
 void listar_exames(EXAMES* exames_bv);

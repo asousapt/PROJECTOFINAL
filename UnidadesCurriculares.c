@@ -11,6 +11,7 @@
 #define MAX_LINHA_FICHEIRO 300
 #define MAX_UNIDADES_CURRICULARES 100
 #define MAX_CURSOS 20
+#define MAX_EXAMES_FILE 100
 
 //le uma linha do ficheiro f
 //devolve uma string com os campos da linha lida
@@ -236,7 +237,7 @@ void criar_UC(UNIDADECURRICULAR* uc, CURSO* cursos) {
 					scanf("%s", descricao); 
 				} while (strlen(descricao) == 0); 
 				
-				//vamos pedir o nome do docnete 
+				//vamos pedir o nome do docente 
 				do
 				{
 					printf("Qual o nome do docente?\n"); 
@@ -273,11 +274,167 @@ void criar_UC(UNIDADECURRICULAR* uc, CURSO* cursos) {
 				}
 }
 
-void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos) {
-	STRING* V;
-	int opcao;
+int valida_cod_UC(UNIDADECURRICULAR* uc, int codigo) {
+	int i = 0; 
+	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if ((uc[i].ocupado == 1 ) && (uc[i].codigo == codigo)) {
+			return i;
+		}
+	}
+	return -1;
+}
 
-	while(1){
+int valida_delete_UC(EXAMES* exames_bv, char* curso, char* unidadecurricular) {
+	int i = 0;
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			if ((exames_bv[i].curso == curso) && (exames_bv[i].unidade_curricular == unidadecurricular) ) {
+				return 0;
+			}
+		} 
+	}
+	return 1;
+}
+
+//Funcao que elimina a unidade curricular com validacoes
+void apagar_uc(UNIDADECURRICULAR* uc, EXAMES* exames_bv){
+	int opcaoUC; 
+	int IDUC = 0;
+	//lista as unidades curriculares
+	listar_UC(uc);
+	//pede ao utilizador o codigo da unidade curricular
+	do
+	{
+		printf("Introduza o codigo da unidade curricular\n"); 
+		printf("Cod UC:");
+		scanf("%d", &opcaoUC); 
+		IDUC = valida_cod_UC(uc, opcaoUC);
+		if (IDUC == -1) {
+			printf("O codigo %d nao se encontra na lista!\n\n", opcaoUC);
+		}
+	} while (IDUC == -1);
+
+	//Valida de existe algum exame para a unidade curricular 
+	if (valida_delete_UC( exames_bv, uc[IDUC].curso, uc[IDUC].descricao ) == 0) {
+		printf("A unidade curricular %s nao pode ser eliminada, pois ja tem exames marcados\n", uc[IDUC].descricao);
+	}
+	else {
+		uc[IDUC].ocupado = 0;
+		uc[IDUC].codigo = 0;
+		uc[IDUC].descricao = "";
+		uc[IDUC].ano = 0;
+		uc[IDUC].semestre = 0;
+		uc[IDUC].docente = "";
+		uc[IDUC].curso = "";
+		printf("Registo eliminado com sucesso!\n\n");
+	}
+}
+
+//fucao responsavel por editar unidades currciculares
+void editar_UC(UNIDADECURRICULAR* uc, EXAMES* exames_bv, CURSO* cursos) {
+	int opcaoUC; 
+	int IDUC = 0;
+	//lista as unidades curriculares
+	listar_UC(uc);
+	//pede ao utilizador o codigo da unidade curricular
+	do
+	{
+		printf("Introduza o codigo da unidade curricular\n"); 
+		printf("Cod UC:");
+		scanf("%d", &opcaoUC); 
+		IDUC = valida_cod_UC(uc, opcaoUC);
+		if (IDUC == -1) {
+			printf("O codigo %d nao se encontra na lista!\n\n", opcaoUC);
+		}
+	} while (IDUC == -1);
+
+	//Valida de existe algum exame para a unidade curricular 
+	if (valida_delete_UC( exames_bv, uc[IDUC].curso, uc[IDUC].descricao ) == 0) {
+		printf("A unidade curricular %s nao pode ser editada, pois ja tem exames marcados\n", uc[IDUC].descricao);
+	}
+	else {
+		fflush(stdin);
+		char* descricao;
+		char* docente;
+		int posicaoCurso; 
+		int ano; 
+		int semestre;
+		do
+		{
+			printf("Indique a nova descricao da Unidade curricular\n");
+			scanf("%s", descricao);
+		} while (strlen(descricao) == 0);
+
+		//vamos pedir o nome do docente 
+		do
+		{
+			printf("Qual o nome do docente?\n"); 
+			scanf("%s", docente); 
+		} while (strlen(docente) == 0); 
+
+		//seleccao do curso 
+
+		do {
+		listar_cursos(cursos);
+		printf("Indique o curso da lista acima\n");
+		scanf("%d", &posicaoCurso);
+		} while (valida_curso_escolhido( cursos, posicaoCurso) == 0);
+		
+		// introducao do ano e do semestre
+		do{
+			printf("Indique o ano (1,2,3) e o semestre (1,2) da unidade curricular\n");
+			scanf("%d %d", &ano, &semestre);
+		}while (valida_ano_semestre( ano, semestre) == 0);
+
+		//valida se a unidade curricular já existe no nosso vector
+		//No caso de retornar 1 a UC ja existe, caso contrario podemos inserir 
+		if (valida_UC_existe_vector(uc,  descricao, cursos[posicaoCurso].codcurso) == 1) {
+			printf("A unidade curricular já existe!\n"); 
+		} else { 
+			uc[IDUC].descricao = descricao; 
+			uc[IDUC].docente = docente;
+			uc[IDUC].curso = cursos[posicaoCurso].codcurso;
+			uc[IDUC].ano = ano; 
+			uc[IDUC].semestre = semestre;
+			uc[IDUC].ocupado = 1;
+
+			printf("Unidade curricular editada com sucesso!\n\n");
+		}
+	}
+}
+
+//Exporta para o ficheiro txt os dados da estrutura 
+
+void export_UC(UNIDADECURRICULAR* uc){
+	char aux[MAX_CAR];
+	int i, k = 0;
+	FILE *f;
+	
+	
+	f = fopen("unidades_curriculares.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro -> unidades_curriculares.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if (uc[i].ocupado == 1) {
+			fprintf(f, "%d|%s|%s|%d|%d|%s", uc[i].codigo,uc[i].descricao,uc[i].docente, uc[i].ano,uc[i].semestre,uc[i].curso);
+		}
+	}
+	
+	fclose(f);
+	}
+
+
+void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv) {
+	STRING* V;
+	int opcao = -1;
+
+	while(opcao != 0){
 		printf("\n");
 		printf("Bem-vindo ao menu das unidades curriculares!\n");
 		printf("Escolha uma das opcoes:\n");
@@ -297,12 +454,11 @@ void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos) {
 				criar_UC(uc, cursos);
 				break;
 			case 3: //Editar unidades curriculares 
+			 	editar_UC(uc, exames_bv, cursos);
 				break; 
 			case 4: //Apagar unidades curriculares
-			case 0: 
+				apagar_uc( uc, exames_bv);
 				break;
 		}
 	}
-	
-
 }
