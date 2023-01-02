@@ -408,7 +408,6 @@ void editar_UC(UNIDADECURRICULAR* uc, EXAMES* exames_bv, CURSO* cursos) {
 //Exporta para o ficheiro txt os dados da estrutura 
 
 void export_UC(UNIDADECURRICULAR* uc){
-	char aux[MAX_CAR];
 	int i, k = 0;
 	FILE *f;
 	
@@ -427,7 +426,7 @@ void export_UC(UNIDADECURRICULAR* uc){
 	}
 	
 	fclose(f);
-	}
+}
 
 
 void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv) {

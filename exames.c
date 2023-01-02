@@ -33,7 +33,7 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 			strcpy(exames_bv[i].unidade_curricular, V[1]);
 
 			exames_bv[i].curso = (char*)malloc(sizeof(char) * (strlen(V[2]) + 1));
-			strcpy(exames_bv[i].unidade_curricular, V[2]);
+			strcpy(exames_bv[i].curso, V[2]);
 
 			exames_bv[i].epoca = (char*)malloc(sizeof(char) * (strlen(V[3]) + 1));
 			strcpy(exames_bv[i].epoca, V[3]);
@@ -65,8 +65,55 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 	fclose(f);
 }
 
-void listar_exames(EXAMES* exames_bv){ 
+//Funcao que exporta os exames activos na aplicacao
+void export_exames(EXAMES* exames_bv){
+	int i, k = 0;
+	FILE *f;
+	
+	
+	f = fopen("exames.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro -> exames.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			fprintf(f, "%d|%s|%s|%s|%s|%s|%d|%s|%d\n", 
+				exames_bv[i].codigo,
+				exames_bv[i].unidade_curricular,
+				exames_bv[i].curso, 
+				exames_bv[i].epoca,
+				exames_bv[i].data,
+				exames_bv[i].hora,
+				exames_bv[i].duracao,
+				exames_bv[i].sala,
+				exames_bv[i].alunos_inscritos
+			);
+		}
+	}
+	fclose(f);
+}
 
+void listar_exames(EXAMES* exames_bv){ 
+	int i = 0; 
+	printf("%s %s %s %s %s %s %s %s", "Cod", "UC", "Curso", "Epoca", "Data", "Hora", "Sala", "Inscritos" );
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			printf("%d %-36s %-3s %-5s %-3s %-3s %-4s %-6d \n", 
+			exames_bv[i].codigo, 
+			exames_bv[i].unidade_curricular, 
+			exames_bv[i].curso, 
+			exames_bv[i].epoca, 
+			exames_bv[i].data, 
+			exames_bv[i].hora, 
+			exames_bv[i].sala, 
+			exames_bv[i].alunos_inscritos);
+		}
+	}
+	printf("\n");
 }
 
 void menu_exames(EXAMES* exames_bv) {
@@ -79,10 +126,13 @@ void menu_exames(EXAMES* exames_bv) {
         scanf("%d", &opcaoExame); 
         switch (opcaoExame)
         {
-        case 1:
+        case 1: //Listar exames
            listar_exames(exames_bv);
             break;
-        
+		case 2: // Adicionar novo exame 
+			break;
+		case 3: // editar Exame 
+			break;
         case 0:
             opcaoExame = 0;
             break;

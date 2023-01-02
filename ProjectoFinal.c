@@ -57,6 +57,7 @@ void main(int argc, char** argv) {
             break;
         case 'S': // GRava os dados nos ficheiros txt
             export_UC(uc);
+            export_exames(exames);
         case 'Z': // sai do programa 
             exit(0);
             break;
