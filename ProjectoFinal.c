@@ -29,8 +29,8 @@ void main(int argc, char** argv) {
 	import_txt_cursos(cursos, V);
 
     //carrega os dados dos exames em memoria
-    EXAMES *exames_bv = (EXAMES *)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
-	//import_txt_exames(exames_bv, V);
+    EXAMES *exames = (EXAMES *)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
+	import_txt_exames(exames, V);
 
 
     
@@ -52,7 +52,7 @@ void main(int argc, char** argv) {
         menu_uc(uc, cursos);
             break;
         case 'C': // menu de exames
-        menu_exames(exames_bv);
+        menu_exames(exames);
             break;
         }
     }
@@ -62,5 +62,5 @@ void main(int argc, char** argv) {
     free(uc); 
     free(cursos);
     free(feriado);
-    free(exames_bv);
+    free(exames);
 }

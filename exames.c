@@ -19,7 +19,7 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 	//Abre o ficheiro
 	FILE* f = fopen("exames.txt", "r");
 	if (f == NULL) {
-		printf("Erro ao abrir ficheiro exames.txt");
+		printf("Erro ao abrir ficheiro exames.txt\n");
 		exit(1);
 	}
 
@@ -28,23 +28,25 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 		if (V != NULL) {// caso consigamos ler alguma informacao
 
 			exames_bv[i].codigo = atoi(V[0]);
+			
+            exames_bv[i].unidade_curricular = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
+			strcpy(exames_bv[i].unidade_curricular, V[1]);
 
-            exames_bv[i].curso = (char *)malloc(sizeof(char) * (sizeof(V[1])));
-			strcpy(exames_bv[i].curso, V[1]);
-
-			exames_bv[i].unidade_curricular = (char *)malloc(sizeof(char) * (sizeof(V[2])));
+			exames_bv[i].curso = (char*)malloc(sizeof(char) * (strlen(V[2]) + 1));
 			strcpy(exames_bv[i].unidade_curricular, V[2]);
 
-			exames_bv[i].epoca = (char *)malloc(sizeof(char) * (sizeof(V[3])));
+			exames_bv[i].epoca = (char*)malloc(sizeof(char) * (strlen(V[3]) + 1));
 			strcpy(exames_bv[i].epoca, V[3]);
 
-			exames_bv[i].data = atoi(V[4]);
-
-			exames_bv[i].hora = atoi(V[5]);
+			exames_bv[i].data = (char*)malloc(sizeof(char) * (strlen(V[4]) + 1));
+			strcpy(exames_bv[i].data, V[4]);
+		
+			exames_bv[i].hora = (char*)malloc(sizeof(char) * (strlen(V[5]) + 1));
+			strcpy(exames_bv[i].hora, V[5]);	
 
 			exames_bv[i].duracao = atoi(V[6]);
 
-			exames_bv[i].sala = (char *)malloc(sizeof(char) * (sizeof(V[7])));
+			exames_bv[i].sala = (char*)malloc(sizeof(char) * (strlen(V[7]) + 1));
 			strcpy(exames_bv[i].sala, V[7]);
 
 			exames_bv[i].alunos_inscritos = atoi(V[8]);

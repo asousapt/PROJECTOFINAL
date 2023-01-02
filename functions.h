@@ -35,8 +35,8 @@ typedef struct
     char* curso;
 	char* unidade_curricular;
 	char* epoca;
-	int data;
-	int hora;
+	char* data;
+	char* hora;
 	int duracao;
 	char* sala;
 	int alunos_inscritos;
