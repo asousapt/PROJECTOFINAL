@@ -97,7 +97,7 @@ void listar_regimes(REGIMES* regimes) {
     for (i = 0; i < MAX_REGIMES; i++)
     {
         if (regimes[i].ocupado == 1) {
-            printf("%d %s\n", i, regimes[i].regime);
+            printf("%d %s", i, regimes[i].regime);
         }
     }
 }
@@ -188,16 +188,19 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	//vamos pedir ao utilizador os dados para criar o novo aluno
 				//declarecao de variaveis necessarias
 	char* nome;
-	int posicaoRegime;
-	int ano_matricula;
-	int numero;
-	int posicaoCurso;
+	nome = (char *)malloc(sizeof(char) * 100);
+	int posicaoRegime ;
+	int ano_matricula ;
+	int numero ;
+	int posicaoCurso ;
 
 	//vamos pedir o numero 
 	do
 	{
 		printf("Qual o nome do aluno?\n");
-		scanf("%s", nome);
+		fflush(stdout);
+		fgets(nome, sizeof(nome), stdin);
+		//scanf("%[^\n]s", nome);
 	} while (strlen(nome) == 0);
 
 	//vamos pedir o regime do aluno
@@ -239,6 +242,7 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 		printf("Tente novamente!\n");
 		printf("\n");
 	}
+	free(nome);
 }
 
 

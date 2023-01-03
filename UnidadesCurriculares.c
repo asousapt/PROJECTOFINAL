@@ -226,7 +226,9 @@ void criar_UC(UNIDADECURRICULAR* uc, CURSO* cursos) {
 				//declarecao de variaveis necessarias
 				int codigo = 0; 
 				char* descricao;
+				descricao = (char *)malloc(sizeof(char) * 100);
 				char* docente;
+				docente = (char *)malloc(sizeof(char) * 100);
 				int posicaoCurso; 
 				int ano; 
 				int semestre;
@@ -272,6 +274,8 @@ void criar_UC(UNIDADECURRICULAR* uc, CURSO* cursos) {
 						printf("\n");
 					}
 				}
+				free(descricao);
+				free(docente);
 }
 
 int valida_cod_UC(UNIDADECURRICULAR* uc, int codigo) {
@@ -357,7 +361,9 @@ void editar_UC(UNIDADECURRICULAR* uc, EXAMES* exames_bv, CURSO* cursos) {
 	else {
 		fflush(stdin);
 		char* descricao;
+		descricao = (char *)malloc(sizeof(char) * 100);
 		char* docente;
+		docente = (char *)malloc(sizeof(char) * 100);
 		int posicaoCurso; 
 		int ano; 
 		int semestre;
@@ -401,8 +407,11 @@ void editar_UC(UNIDADECURRICULAR* uc, EXAMES* exames_bv, CURSO* cursos) {
 			uc[IDUC].ocupado = 1;
 
 			printf("Unidade curricular editada com sucesso!\n\n");
+			free(descricao);
+			free(docente);
 		}
 	}
+	
 }
 
 //Exporta para o ficheiro txt os dados da estrutura 

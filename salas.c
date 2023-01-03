@@ -111,8 +111,11 @@ void criar_sala(SALAS* salas) {
 	//vamos pedir ao utilizador os dados para criar a nova sala
 				//declarecao de variaveis necessarias
 	char* codigo;
+	codigo = (char *)malloc(sizeof(char) * 10);
 	char* nome_sala;
-	int lotacao;
+	nome_sala = (char *)malloc(sizeof(char) * 50);
+
+	int lotacao=0;
 	//vamos pedir o numero 
 	do
 	{
@@ -128,9 +131,13 @@ void criar_sala(SALAS* salas) {
 	} while (strlen(nome_sala) == 0);
 
 	// introducao da lotacao
-	
-		printf("Indique a lotacao da sala\n");
-		scanf("%d", &lotacao);
+		do
+		{	
+			printf("Indique a lotacao da sala\n");
+			scanf("%d", &lotacao);
+		} while (lotacao == 0);
+		
+		
 
 	//valida se a sala já existe no nosso vector
 	//No caso de retornar 1 a UC ja existe, caso contrario podemos inserir 
@@ -148,6 +155,8 @@ void criar_sala(SALAS* salas) {
 			printf("\n");
 		}
 	}
+	free(nome_sala);
+	free(codigo);
 }
 
 //menu relativo as salas
