@@ -4,27 +4,27 @@
 
 /**INICIO Da declaracao de estruturas**/
 //Definicao de estrutura de feriados 
-typedef struct 
+typedef struct
 {
-   int dia; 
-   int mes;
+	int dia;
+	int mes;
 }FERIADOS;
 
 typedef struct {
-	char* codcurso; 
+	char* codcurso;
 	char* descricao;
 	int ocupado;
-} CURSO; 
+} CURSO;
 
 //definicao da estrutura de unidade curricular 
 typedef struct
 {
 	int codigo;
 	char* descricao;
+	char* curso;
 	char* docente;
 	int ano;
 	int semestre;
-	char* curso;
 	int ocupado;
 }UNIDADECURRICULAR;
 
@@ -32,8 +32,8 @@ typedef struct
 typedef struct
 {
 	int codigo;
-    char* curso;
 	char* unidade_curricular;
+	char* curso;
 	char* epoca;
 	char* data;
 	char* hora;
@@ -43,6 +43,31 @@ typedef struct
 	int realizado;
 	int ocupado;
 } EXAMES;
+
+//definicao da estrutura regimes
+typedef struct {
+	int codigo;
+	char* regime;
+	int ocupado;
+}REGIMES;
+
+//definicao da estrutura alunos
+typedef struct {
+	char* nome; // nome do aluno
+	char* regime; //ID dos regimes = 1 (normal), 2 (trabalhador estudante), 3 (atleta), 4 (dirigente associativo), 5 (Erasmus)
+	int ano_matricula; // 1� 2� ou 3� ano
+	int numero; //numero mecanografico
+	char* curso; /*CONT, EA, EC, EE, EI, EM, GE, GI, MKT, TDM, TDMO, TUR,*/
+	int ocupado;
+}ALUNOS;
+
+//definicao da estrutura salas
+typedef struct{
+	char* codigo;
+	char* nome_sala;
+	int lotacao;
+	int ocupado;
+}SALAS;
 
 /*FIM da definicao de estruturas*/
 
@@ -61,10 +86,28 @@ int insere_uc(UNIDADECURRICULAR* uc, char* descricao, char* docente, char* curso
 int get_posicao_vect_UC(UNIDADECURRICULAR* uc);
 int get_newID_UC(UNIDADECURRICULAR* uc);
 int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso);
-void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
-void import_txt_exames(EXAMES* exames_bv, STRING* V);
-void menu_exames(EXAMES* exames_bv);
-void listar_exames(EXAMES* exames_bv);
+void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos);
+void import_txt_exames(EXAMES* exames, STRING* V);
+void menu_exames(EXAMES* exames);
+void listar_exames(EXAMES* exames);
+void import_txt_alunos(ALUNOS* alunos, STRING* V);
+void import_txt_regimes(REGIMES* regimes, STRING* V);
+void listar_regimes(REGIMES* regimes);
+void listar_alunos(ALUNOS* alunos);
+int valida_regime_escolhido(REGIMES* regimes, int posicaoRegime);
+int valida_numero_aluno(ALUNOS* alunos, int numero_aluno);
+int valida_ano(int ano_matricula);
+int get_posicao_vect_alunos(ALUNOS* alunos);
+int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, int numero, char* curso);
+void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
+void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
+void import_txt_salas(SALAS* salas, STRING* V);
+void listar_salas(SALAS* salas);
+int valida_sala_existe_vector(SALAS* salas, char* nome_sala);
+int get_posicao_vect_salas(SALAS* salas);
+int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao);
+void criar_sala(SALAS* salas);
+void menu_salas(SALAS* salas);
 
 
 #endif 
