@@ -40,7 +40,7 @@ void main(int argc, char** argv) {
     //carrega os dados dos exames em memoria
     EXAMES* exames = (EXAMES*)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
     import_txt_exames(exames, V);
-    //import_txt_exames(exames_bv, V);
+    
     
     //carrega os dados dos regimes em memoria
     REGIMES* regimes = (REGIMES*)malloc(MAX_REGIMES * sizeof(REGIMES));
@@ -48,7 +48,7 @@ void main(int argc, char** argv) {
 
     //carrega os dados dos alunos em memoria
     ALUNOS* alunos = (ALUNOS*)malloc(MAX_ALUNOS * sizeof(ALUNOS));
-    //import_txt_alunos(alunos, V);
+    import_txt_alunos(alunos, V);
 
     //carrega os dados das salas
     SALAS* salas = (SALAS*)malloc(MAX_SALAS * sizeof(SALAS));

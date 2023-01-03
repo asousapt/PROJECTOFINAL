@@ -32,18 +32,18 @@ void import_txt_alunos(ALUNOS* alunos, STRING* V) {
 
 			alunos[i].nome = (char*)malloc(sizeof(char) * (strlen(V[0]) + 1));
 			strcpy(alunos[i].nome, V[0]);
-
-			alunos[i].regime = (char*)malloc(sizeof(char) * (strlen(V[1]) + 5));
+			
+			alunos[i].regime = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
 			strcpy(alunos[i].regime, V[1]);
 
 			alunos[i].ano_matricula = atoi(V[2]);
 
 			alunos[i].numero = atoi(V[3]);
 
-            alunos[i].curso = (char*)malloc(sizeof(char) * (strlen(V[4]) + 5));
-            strcpy(alunos[i].curso, V[4]);
+			alunos[i].curso = (char*)malloc(sizeof(char) * (strlen(V[4]) + 1));
+			strcpy(alunos[i].curso, V[4]);
 
-            alunos[i].ocupado = 1;
+			alunos[i].ocupado = 1;
 
 			for (k = 0; k < n_campos_lidos; k++)
 				free(V[k]);
@@ -144,7 +144,7 @@ int valida_aluno_existe(ALUNOS* alunos, int numero) {
 	{
 		if (alunos[i].ocupado == 1) {
 
-			if (alunos[i].numero, numero == 0) {
+			if (alunos[i].numero == numero) {
 				return 1;
 			}
 		}

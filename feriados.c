@@ -26,9 +26,10 @@ void import_feriados(FERIADOS* feriado, STRING* V) {
 			feriado[i].dia = atoi(V[0]);
             feriado[i].mes = atoi(V[1]);
 
-			for (k = 0; k < n_campos_lidos; k++)
+			for (k = 0; k < n_campos_lidos; k++) 
 				free(V[k]);
 				free(V);
+			
 			i++;
 		}
 	} while (!feof(f));
