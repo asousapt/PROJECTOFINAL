@@ -117,14 +117,14 @@ void criar_sala(SALAS* salas) {
 	do
 	{
 		printf("Qual o numero da sala?\n");
-		scanf("%s", &codigo);
+		scanf("%s", codigo);
 	} while (strlen(codigo) == 0);
 
 	//vamos pedir o nome da sala 
 	do
 	{
 		printf("Qual o nome do sala?\n");
-		scanf("%s", &nome_sala);
+		scanf("%s", nome_sala);
 	} while (strlen(nome_sala) == 0);
 
 	// introducao da lotacao

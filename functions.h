@@ -53,11 +53,11 @@ typedef struct {
 
 //definicao da estrutura alunos
 typedef struct {
-	char* nome; // nome do aluno
+	char* nome; 
 	char* regime; //ID dos regimes = 1 (normal), 2 (trabalhador estudante), 3 (atleta), 4 (dirigente associativo), 5 (Erasmus)
-	int ano_matricula; // 1� 2� ou 3� ano
-	int numero; //numero mecanografico
-	char* curso; /*CONT, EA, EC, EE, EI, EM, GE, GI, MKT, TDM, TDMO, TUR,*/
+	int ano_matricula; 
+	int numero; 
+	char* curso;
 	int ocupado;
 }ALUNOS;
 
@@ -86,7 +86,7 @@ int insere_uc(UNIDADECURRICULAR* uc, char* descricao, char* docente, char* curso
 int get_posicao_vect_UC(UNIDADECURRICULAR* uc);
 int get_newID_UC(UNIDADECURRICULAR* uc);
 int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso);
-void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos);
+void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
 void import_txt_exames(EXAMES* exames, STRING* V);
 void menu_exames(EXAMES* exames);
 void listar_exames(EXAMES* exames);

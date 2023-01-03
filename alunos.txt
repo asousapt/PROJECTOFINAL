@@ -1,4 +1,3 @@
-NOME|REGIME|ANO|NÚMERO|CURSO
 Erick Barros|Normal|1|5378|EE
 Alexandre Araujo|Normal|3|3506|EM
 Ana Beatriz Silva|Normal|2|3248|CONT

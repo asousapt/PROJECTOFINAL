@@ -6,9 +6,10 @@
 #include "functions.h"
 #include "feriados.c"
 #include "UnidadesCurriculares.c"
-#include "Exames.c"
-#include "alunos.c"
+#include "exames.c"
 #include "salas.c"
+#include "alunos.c"
+
 
 #define MAX_EXAMES_FILE 100
 #define STRING char *
@@ -47,7 +48,7 @@ void main(int argc, char** argv) {
 
     //carrega os dados dos alunos em memoria
     ALUNOS* alunos = (ALUNOS*)malloc(MAX_ALUNOS * sizeof(ALUNOS));
-    import_txt_alunos(alunos, V);
+    //import_txt_alunos(alunos, V);
 
     //carrega os dados das salas
     SALAS* salas = (SALAS*)malloc(MAX_SALAS * sizeof(SALAS));
@@ -73,7 +74,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'B': // menu das unidades curriculares
-            menu_uc(uc, cursos);
+            menu_uc(uc, cursos, exames);
             break;
 
         case 'C': // menu de exames

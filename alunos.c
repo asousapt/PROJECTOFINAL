@@ -144,7 +144,7 @@ int valida_aluno_existe(ALUNOS* alunos, int numero) {
 	{
 		if (alunos[i].ocupado == 1) {
 
-			if (strcmp(alunos[i].numero, numero) == 0) {
+			if (alunos[i].numero, numero == 0) {
 				return 1;
 			}
 		}
@@ -197,7 +197,7 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	do
 	{
 		printf("Qual o nome do aluno?\n");
-		scanf("%s", &nome);
+		scanf("%s", nome);
 	} while (strlen(nome) == 0);
 
 	//vamos pedir o regime do aluno
@@ -230,7 +230,7 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	} while (valida_curso_escolhido(cursos, posicaoCurso) == 0);
 
 	
-	if (insere_aluno(alunos, nome, regimes[posicaoRegime].codigo, ano_matricula, numero, cursos[posicaoCurso].codcurso) == 1) {
+	if (insere_aluno(alunos, nome, regimes[posicaoRegime].regime, ano_matricula, numero, cursos[posicaoCurso].codcurso) == 1) {
 			printf("%s inserida com sucesso!\n", nome);
 			printf("\n");
 	}
