@@ -1,0 +1,5 @@
+01|Normal
+02|Trabalhador-estudante
+03|Atleta
+04|Dirigente associativo
+05|Erasmus
