@@ -114,28 +114,50 @@ void listar_alunos(ALUNOS* alunos) {
 	}
 	printf("\n");
 }
-/*
-//verifica se a sala ja existe
-int valida_sala_existe_vector(SALAS* salas, char* nome_sala) {
-	int i = 0; 
-	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+
+//funcao que valida se o regime existe
+int valida_regime_escolhido(REGIMES* regimes, int posicaoRegime){
+	int i = 0;
+
+	for (i = 0; i < MAX_REGIMES; i++)
 	{
-		if (salas[i].ocupado == 1) {
-			
-			if (strcmp(salas[i].nome_sala, nome_sala) == 0) { 
+		if (regimes[i].ocupado == 1 && i == posicaoRegime) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+//funcao que valida o ano de matricula
+int valida_ano_matricula(int ano_matricula) {
+	if (ano_matricula < 1 || ano_matricula > 3) {
+		return 0;
+	}
+	return 1;
+}
+
+//funcao que valida o numero do aluno
+int valida_aluno_existe(ALUNOS* alunos, int numero) {
+	int i = 0;
+	for (i = 0; i < MAX_ALUNOS; i++)
+	{
+		if (alunos[i].ocupado == 1) {
+
+			if (strcmp(alunos[i].numero, numero) == 0) {
 				return 1;
-			}	
+			}
 		}
 	}
 	return 0;
 }
 
 //
-int get_posicao_vect_salas(SALAS* salas) {
+int get_posicao_vect_alunos(ALUNOS* alunos) {
 	int i;
-	for (i = 0; i < MAX_SALAS; i++)
+	for (i = 0; i < MAX_ALUNOS; i++)
 	{
-		if ((salas[i].ocupado == 0) && (i < MAX_SALAS)) {
+		if ((alunos[i].ocupado == 0) && (i < MAX_ALUNOS)) {
 			return i;
 		}
 	}
@@ -143,66 +165,82 @@ int get_posicao_vect_salas(SALAS* salas) {
 }
 
 //Insere sala
-int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao) {
+int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, int numero, char* curso) {
 	int posicaoVazia = 0;
-	posicaoVazia = get_posicao_vect_salas(salas);
+	posicaoVazia = get_posicao_vect_alunos(alunos);
 	if (posicaoVazia == -1) {
 		return -1;
 	}
 
-	//insere a nova sala no vector 
-	salas[posicaoVazia].codigo = codigo;
-	salas[posicaoVazia].nome_sala = nome_sala;
-	salas[posicaoVazia].lotacao = lotacao;
-	salas[posicaoVazia].ocupado = 1;
+	//insere o novo aluno no vector 
+	alunos[posicaoVazia].nome = nome;
+	alunos[posicaoVazia].regime = regime;
+	alunos[posicaoVazia].ano_matricula = ano_matricula;
+	alunos[posicaoVazia].numero = numero;
+	alunos[posicaoVazia].curso = curso;
+	alunos[posicaoVazia].ocupado = 1;
 
 	return 1;
 }
 
 //criar salas
-void criar_sala(SALAS* salas) {
-	//vamos pedir ao utilizador os dados para criar a nova sala
+void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
+	//vamos pedir ao utilizador os dados para criar o novo aluno
 				//declarecao de variaveis necessarias
-	char* codigo;
-	char* nome_sala;
-	int lotacao;
+	char* nome;
+	int posicaoRegime;
+	int ano_matricula;
+	int numero;
+	int posicaoCurso;
+
 	//vamos pedir o numero 
 	do
 	{
-		printf("Qual o numero da sala?\n");
-		scanf("%s", &codigo);
-	} while (strlen(codigo) == 0);
+		printf("Qual o nome do aluno?\n");
+		scanf("%s", &nome);
+	} while (strlen(nome) == 0);
 
-	//vamos pedir o nome da sala 
+	//vamos pedir o regime do aluno
 	do
 	{
-		printf("Qual o nome do sala?\n");
-		scanf("%s", &nome_sala);
-	} while (strlen(nome_sala) == 0);
+		listar_regimes(regimes);
+		printf("Qual o regime do aluno (Escolha uma das opcoes acima)?\n");
+		scanf("%d", &posicaoRegime);
+	} while (valida_regime_escolhido(regimes, posicaoRegime) == 0);
 
-	// introducao da lotacao
+	// vamos pedir o ano de matricula do aluno
+	do{
+		printf("Indique o ano de matricula do aluno\n");
+		scanf("%d", &ano_matricula);
+	} while (valida_ano_matricula(ano_matricula) == 0);
+
+	//vamos pedir o numero do aluno
+	do
+	{
+		printf("Qual o numero do aluno?\n");
+		scanf("%d", &numero);
+	} while (valida_aluno_existe(alunos, numero) == 0);
+
+	//vamos pedir o curso do aluno
+	do
+	{
+		listar_cursos(cursos);
+		printf("Qual o curso do aluno (Escolha uma das opcoes acima)?\n");
+		scanf("%d", &posicaoCurso);
+	} while (valida_curso_escolhido(cursos, posicaoCurso) == 0);
+
 	
-		printf("Indique a lotacao da sala\n");
-		scanf("%d", &lotacao);
-
-	//valida se a sala já existe no nosso vector
-	//No caso de retornar 1 a UC ja existe, caso contrario podemos inserir 
-	if (valida_sala_existe_vector(salas, nome_sala) == 1) {
-		printf("A unidade curricular já existe!\n");
+	if (insere_aluno(alunos, nome, regimes[posicaoRegime].codigo, ano_matricula, numero, cursos[posicaoCurso].codcurso) == 1) {
+			printf("%s inserida com sucesso!\n", nome);
+			printf("\n");
 	}
 	else {
-		if (insere_sala(salas, codigo, nome_sala, lotacao) == 1) {
-			printf("%s inserida com sucesso!\n", nome_sala);
-			printf("\n");
-		}
-		else {
-			printf("Ocorreu um erro ao guardar a sala em memoria\n");
-			printf("Tente novamente!\n");
-			printf("\n");
-		}
+		printf("Ocorreu um erro ao guardar o aluno em memoria\n");
+		printf("Tente novamente!\n");
+		printf("\n");
 	}
 }
-*/
+
 
 //menu relativo as salas
 void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
@@ -226,7 +264,7 @@ void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 			listar_alunos(alunos);
 			break;
 		case 2: //cria alunos 
-			//criar_aluno(alunos);
+			criar_aluno(alunos, regimes, cursos);
 			break;
 		case 3: //Editar aluno 
 			break;
