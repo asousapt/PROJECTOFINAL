@@ -48,3 +48,24 @@ void lista_feriados(FERIADOS* feriado) {
         }
     }
 }
+
+void export_feriados(FERIADOS* feriado) {
+	int i = 0;
+	FILE *f;
+	
+	
+	f = fopen("feriados.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro feriados.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_FERIADOS; i++)
+	{
+		if (feriado[i].dia > 0) {
+			fprintf(f, "%d|%d\n", feriado[i].dia,feriado[i].mes );
+		} 
+	}
+	
+	fclose(f);
+}

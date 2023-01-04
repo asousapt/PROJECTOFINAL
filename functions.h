@@ -10,6 +10,14 @@ typedef struct
 	int mes;
 }FERIADOS;
 
+typedef struct
+{
+	char* epoca;
+	char* dataInicio;
+	char* dataFim;
+	int semestre;
+}EPOCAS;
+
 typedef struct {
 	char* codcurso;
 	char* descricao;
@@ -112,6 +120,9 @@ int valida_cod_sala(SALAS* salas, char* codigo);
 int valida_delete_sala(EXAMES* exames_bv, char* sala);
 void apagar_salas(SALAS* salas, EXAMES* exames_bv);
 void menu_salas(SALAS* salas, EXAMES* exames_bv);
-
+void export_Salas(SALAS* salas);
+void export_feriados(FERIADOS* feriado);
+void export_alunos(ALUNOS* alunos);
+void import_txt_epocas(EPOCAS* epocas, STRING* V);
 
 #endif 

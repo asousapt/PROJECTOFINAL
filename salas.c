@@ -196,7 +196,7 @@ void apagar_salas(SALAS* salas, EXAMES* exames_bv){
 	{
 		printf("Introduza o numero da sala\n"); 
 		printf("Numero Sala:");
-		scanf("%s", &opcaoSala); 
+		scanf("%s", opcaoSala); 
 		IDSala = valida_cod_sala(salas, opcaoSala);
 		if (IDSala == -1) {
 			printf("O codigo %s nao se encontra na lista!\n\n", opcaoSala);
@@ -215,6 +215,30 @@ void apagar_salas(SALAS* salas, EXAMES* exames_bv){
 		printf("Registo eliminado com sucesso!\n\n");
 	}
 }
+
+
+//funcao que exporta as salas de novo para o ficheiro
+void export_Salas(SALAS* salas) { 
+	int i= 0;
+	FILE *f;
+	
+	f = fopen("salas.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro salas.txt\n");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_SALAS; i++)
+	{
+		if (salas[i].ocupado == 1) {
+			fprintf(f, "%s|%s|%d\n", 
+			salas[i].codigo, salas[i].nome_sala, salas[i].lotacao );
+		}
+	}
+	
+	fclose(f);
+}
+
 
 //menu relativo as salas
 void menu_salas(SALAS* salas, EXAMES* exames_bv) {

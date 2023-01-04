@@ -11,6 +11,15 @@
 #define MAX_LINHA_FICHEIRO 300
 #define MAX_EXAMES_FILE 100
 
+char *trim(char *string)
+{
+    char *ptr = NULL;
+    while (*string == ' ') string++;  // corta espacos do inicio
+    ptr = string + strlen(string) - 1; // vai para o final da string 
+    while (*ptr == ' '){ *ptr = '\0' ; ptr--; } ; // reescreve a string
+    return string;  
+}
+
 //passa para o vetor a informacao dos exames
 void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 
@@ -65,6 +74,11 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 	fclose(f);
 }
 
+// funcao que cria novos exames 
+void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas) {
+
+}
+
 //Funcao que exporta os exames activos na aplicacao
 void export_exames(EXAMES* exames_bv){
 	int i, k = 0;
@@ -85,8 +99,8 @@ void export_exames(EXAMES* exames_bv){
 				exames_bv[i].unidade_curricular,
 				exames_bv[i].curso, 
 				exames_bv[i].epoca,
-				exames_bv[i].data,
-				exames_bv[i].hora,
+				trim(exames_bv[i].data),
+				trim(exames_bv[i].hora),
 				exames_bv[i].duracao,
 				exames_bv[i].sala,
 				exames_bv[i].alunos_inscritos

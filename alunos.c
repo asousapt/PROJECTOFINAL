@@ -245,6 +245,33 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	free(nome);
 }
 
+void export_alunos(ALUNOS* alunos) {
+	int i, k = 0;
+	FILE *f;
+	
+	
+	f = fopen("alunos.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro alunos.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if (alunos[i].ocupado == 1) {
+			fprintf(f, "%s|%s|%d|%d|%s",
+				alunos[i].nome, 
+				alunos[i].regime, 
+				alunos[i].ano_matricula, 
+				alunos[i].numero, 
+				alunos[i].curso
+			);
+		}
+	}
+	
+	fclose(f);
+}
+
 
 //menu relativo as salas
 void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
