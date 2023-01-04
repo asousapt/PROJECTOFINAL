@@ -76,6 +76,7 @@ void import_feriados(FERIADOS* feriado, STRING* V);
 void lista_feriados(FERIADOS* feriado);
 void import_txt_cursos(CURSO* curso, STRING* V);
 void import_txt_uc(UNIDADECURRICULAR* uc, STRING* V);
+void export_UC(UNIDADECURRICULAR* uc);
 void listar_UC(UNIDADECURRICULAR* uc);
 void listar_cursos(CURSO* cursos);
 int valida_curso_escolhido(CURSO* cursos, int escolhido);
@@ -107,7 +108,10 @@ int valida_sala_existe_vector(SALAS* salas, char* nome_sala);
 int get_posicao_vect_salas(SALAS* salas);
 int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao);
 void criar_sala(SALAS* salas);
-void menu_salas(SALAS* salas);
+int valida_cod_sala(SALAS* salas, char* codigo);
+int valida_delete_sala(EXAMES* exames_bv, char* sala);
+void apagar_salas(SALAS* salas, EXAMES* exames_bv);
+void menu_salas(SALAS* salas, EXAMES* exames_bv);
 
 
 #endif 

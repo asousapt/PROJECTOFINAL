@@ -12,6 +12,7 @@
 #define MAX_UNIDADES_CURRICULARES 100
 #define MAX_CURSOS 20
 #define MAX_SALAS 100
+#define MAX_EXAMES_FILE 100
 
 
 //passa para o vecto a informacao do ficheiro salas.txt
@@ -114,8 +115,7 @@ void criar_sala(SALAS* salas) {
 	codigo = (char *)malloc(sizeof(char) * 10);
 	char* nome_sala;
 	nome_sala = (char *)malloc(sizeof(char) * 50);
-
-	int lotacao=0;
+	int lotacao;
 	//vamos pedir o numero 
 	do
 	{
@@ -145,8 +145,8 @@ void criar_sala(SALAS* salas) {
 		printf("A unidade curricular já existe!\n");
 	}
 	else {
-		if (insere_sala(salas, codigo, nome_sala, lotacao) == 1) {
-			printf("%s inserida com sucesso!\n", nome_sala);
+		if (insere_sala(salas, codigo, nome_sala, lotacao)) { //==1
+			printf("Sala inserida com sucesso!\n");
 			printf("\n");
 		}
 		else {
@@ -159,8 +159,65 @@ void criar_sala(SALAS* salas) {
 	free(codigo);
 }
 
+//valida se o numero da sala existe
+int valida_cod_sala(SALAS* salas, char* codigo) {
+	int i = 0; 
+	for ( i = 0; i < MAX_SALAS; i++)
+	{
+		if ((salas[i].ocupado == 1 ) && (salas[i].codigo == codigo)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+//valida se a sala não está definida para algum exame
+int valida_delete_sala(EXAMES* exames_bv, char* sala) {
+	int i = 0;
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			if ((exames_bv[i].sala == sala)) {
+				return 0;
+			}
+		} 
+	}
+	return 1;
+}
+
+//Funcao que elimina a sala com validacoes
+void apagar_salas(SALAS* salas, EXAMES* exames_bv){
+	char* opcaoSala; 
+	int IDSala = 0;
+	//lista as salas
+	listar_salas(salas);
+	//pede ao utilizador o numero da sala
+	do
+	{
+		printf("Introduza o numero da sala\n"); 
+		printf("Numero Sala:");
+		scanf("%s", &opcaoSala); 
+		IDSala = valida_cod_sala(salas, opcaoSala);
+		if (IDSala == -1) {
+			printf("O codigo %s nao se encontra na lista!\n\n", opcaoSala);
+		}
+	} while (IDSala == -1);
+
+	//Valida de existe algum exame para a sala
+	if (valida_delete_sala(exames_bv, salas[IDSala].codigo) == 0) {
+		printf("A sala %s nao pode ser eliminada, pois ja tem exames marcados\n", salas[IDSala].nome_sala);
+	}
+	else {
+		salas[IDSala].ocupado = 0;
+		salas[IDSala].codigo = 0;
+		salas[IDSala].nome_sala = "";
+		salas[IDSala].lotacao = 0;
+		printf("Registo eliminado com sucesso!\n\n");
+	}
+}
+
 //menu relativo as salas
-void menu_salas(SALAS* salas) {
+void menu_salas(SALAS* salas, EXAMES* exames_bv) {
 	int opcao;
 
 	while (1) {
@@ -186,7 +243,9 @@ void menu_salas(SALAS* salas) {
 		case 3: //Editar salas 
 			break;
 		case 4: //Apagar salas
-		case 0:
+			apagar_salas(salas, exames_bv);
+		case 0: 
+			exit(0);
 			break;
 		}
 	}
