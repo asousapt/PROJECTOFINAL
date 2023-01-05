@@ -71,6 +71,7 @@ typedef struct {
 
 //definicao da estrutura salas
 typedef struct{
+	int id;
 	char* codigo;
 	char* nome_sala;
 	int lotacao;
@@ -108,7 +109,7 @@ int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso)
 void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
 void import_txt_exames(EXAMES* exames, STRING* V);
 void import_txt_inscricoes_exames(INSCRICOESEXAMES* inscricoes_exames, STRING* V);
-void menu_exames(EXAMES* exames);
+void menu_exames(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAMES* inscricoes_exames);
 void listar_exames(EXAMES* exames);
 void import_txt_alunos(ALUNOS* alunos, STRING* V);
 void import_txt_regimes(REGIMES* regimes, STRING* V);
@@ -124,18 +125,19 @@ int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, int numero_aluno);
 void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames);
 void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* regimes, CURSO* cursos);
 void export_alunos(ALUNOS* alunos);
-void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
+void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAMES* inscricoes_exames);
 void import_txt_salas(SALAS* salas, STRING* V);
 void listar_salas(SALAS* salas);
 int valida_sala_existe_vector(SALAS* salas, char* nome_sala);
+int get_newID_sala(SALAS* salas);
 int get_posicao_vect_salas(SALAS* salas);
-int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao);
+int insere_sala(SALAS* salas, int id, char* codigo, char* nome_sala, int lotacao);
 void criar_sala(SALAS* salas);
-int valida_cod_sala(SALAS* salas, char* codigo);
+int valida_cod_sala(SALAS* salas, int opcaoSala);
 int valida_delete_sala(EXAMES* exames_bv, char* sala);
 void apagar_salas(SALAS* salas, EXAMES* exames_bv);
-void menu_salas(SALAS* salas, EXAMES* exames_bv);
 void export_Salas(SALAS* salas);
+void menu_salas(SALAS* salas, EXAMES* exames_bv);
 void export_feriados(FERIADOS* feriado);
 void export_alunos(ALUNOS* alunos);
 void import_txt_epocas(EPOCAS* epocas, STRING* V);

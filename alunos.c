@@ -165,7 +165,7 @@ int get_posicao_vect_alunos(ALUNOS* alunos) {
 	return -1;
 }
 
-//Insere sala
+//Insere aluno
 int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, int numero, char* curso) {
 	int posicaoVazia = 0;
 	posicaoVazia = get_posicao_vect_alunos(alunos);
@@ -272,14 +272,14 @@ void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames){
 		printf("Introduza o numero do aluno\n"); 
 		printf("Numero do aluno:");
 		scanf("%d", &opcao_aluno); 
-		ID_aluno = valida_cod_aluno(alunos, opcao_aluno);
+		ID_aluno = valida_aluno_existe(alunos, opcao_aluno);
 		if (ID_aluno == -1) {
 			printf("O numero %d nao se encontra na lista!\n\n", opcao_aluno);
 		}
 	} while (ID_aluno == -1);
 
 	//Valida de existe algum exame para o aluno 
-	if (valida_delete_aluno(inscricoes_exames, alunos[ID_aluno].numero) == 0) {
+	if (valida_delete_aluno(inscricoes_exames, inscricoes_exames[ID_aluno].numero_aluno) == 0) {
 		printf("O aluno %s nao pode ser eliminado, pois tem exames marcados\n", alunos[ID_aluno].nome);
 	}
 	else {
@@ -313,7 +313,7 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 	} while (ID_aluno == -1);
 
 	//Valida de existe algum exame para exame para o aluno 
-	if (valida_delete_aluno(inscricoes_exames, alunos[ID_aluno].nome) == 0) {
+	if (valida_delete_aluno(inscricoes_exames, inscricoes_exames[ID_aluno].numero_aluno) == 0) {
 		printf("O aluno %s nao pode ser editado, pois ja tem exames marcados\n", alunos[ID_aluno].nome);
 	}
 	else {
@@ -336,7 +336,7 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 			listar_regimes(regimes);
 			printf("Qual regime do aluno? (Escolha uma das opcoes acima)\n"); 
 			scanf("%d", &opcao_regime); 
-		} while (strlen(opcao_regime) == 0); 
+		} while (valida_regime_escolhido(regimes, opcao_regime) == 0); 
 
 		// introducao do ano de matricula
 		do{
@@ -357,7 +357,7 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 			listar_cursos(cursos);
 			printf("Qual o curso do aluno? (Escolha uma das opcoes acima)\n"); 
 			scanf("%d", &opcao_curso); 
-		} while (strlen(opcao_curso) == 0); 
+		} while (valida_curso_escolhido(cursos, opcao_curso) == 0); 
 		
 		alunos[ID_aluno].nome = nome; 
 		alunos[ID_aluno].regime = regimes[opcao_regime].regime;
@@ -400,7 +400,7 @@ void export_alunos(ALUNOS* alunos) {
 }
 
 //menu relativo as salas
-void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
+void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAMES* inscricoes_exames) {
     int opcao;
 
 	while (1) {
@@ -424,6 +424,7 @@ void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 			criar_aluno(alunos, regimes, cursos);
 			break;
 		case 3: //Editar aluno 
+			editar_aluno(alunos, inscricoes_exames, regimes, cursos);
 			break;
 		case 4: //Apagar aluno
 		case 0:

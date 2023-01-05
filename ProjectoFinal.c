@@ -78,7 +78,7 @@ void main(int argc, char** argv) {
         switch (escolha)
         {
         case 'A': // ALUNOS 
-            menu_alunos(alunos, regimes, cursos);
+            menu_alunos(alunos, regimes, cursos, inscricoes_exames);
             break;
 
         case 'B': // menu das unidades curriculares
@@ -86,7 +86,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'C': // menu de exames
-            menu_exames(exames, inscricoes_exames);
+            menu_exames(exames, inscricoes_exames, alunos, salas);
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);
