@@ -130,7 +130,7 @@ void listar_exames(EXAMES* exames_bv){
 	printf("\n");
 }
 
-void menu_exames(EXAMES* exames_bv) {
+void menu_exames(EXAMES* exames_bv,INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas) {
     int opcaoExame = -1; 
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");

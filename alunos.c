@@ -377,7 +377,7 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 		do 
 		{
 			printf("Indique o novo numero do aluno\n");
-			scanf("%d", numero);
+			scanf("%d", &numero);
 		} while (valida_aluno_existe(alunos, numero) == 0);
 
 		//selecao do curso

@@ -214,7 +214,7 @@ void apagar_salas(SALAS* salas, EXAMES* exames){
 	{
 		printf("Introduza o ID da sala (dentro das opcoes acima): \n"); 
 		printf("ID Sala:");
-		scanf("%d", opcaoSala); 
+		scanf("%d", &opcaoSala); 
 		IDSala = valida_cod_sala(salas, opcaoSala);
 		if (IDSala == -1) {
 			printf("O ID %d nao se encontra na lista!\n\n", opcaoSala);
@@ -250,7 +250,7 @@ void editar_sala(SALAS* salas, EXAMES* exames) {
 		scanf("%d", &opcaoSala); 
 		IDSala = valida_cod_sala(salas, opcaoSala);
 		if (IDSala == -1) {
-			printf("O numero %s nao se encontra na lista!\n\n", opcaoSala);
+			printf("O numero %d nao se encontra na lista!\n\n", opcaoSala);
 		}
 	} while (IDSala == -1);
 
@@ -282,7 +282,7 @@ void editar_sala(SALAS* salas, EXAMES* exames) {
 
 		do {
 		printf("Indique lotacao\n");
-		scanf("%d", lotacao);
+		scanf("%d", &lotacao);
 		} while (lotacao == 0);
 
 		//valida se a sala já existe no nosso vector
