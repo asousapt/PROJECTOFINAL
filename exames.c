@@ -74,6 +74,44 @@ void import_txt_exames(EXAMES* exames_bv, STRING* V) {
 	fclose(f);
 }
 
+void import_txt_inscricoes_exames(INSCRICOESEXAMES* inscricoes_exames, STRING* V){
+int i = 0, k, n_campos_lidos; 
+
+	//Abre o ficheiro
+	FILE* f = fopen("inscricoes_exames.txt", "r");
+	if (f == NULL) {
+		printf("Erro ao abrir ficheiro inscricoes_exames.txt\n");
+		exit(1);
+	}
+	
+	do {
+		V = Read_Split_Line_File(f, &n_campos_lidos);
+		if (V != NULL) {// caso consigamos ler alguma informacao			
+
+			inscricoes_exames[i].codigo = atoi(V[0]);
+
+			inscricoes_exames[i].unidade_curricular = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
+			strcpy(inscricoes_exames[i].unidade_curricular, V[1]);
+			
+			inscricoes_exames[i].numero_aluno = atoi(V[2]);
+
+			inscricoes_exames[i].ano_matricula = atoi(V[3]);
+
+			inscricoes_exames[i].epoca = (char*)malloc(sizeof(char) * (strlen(V[4]) + 4));
+			strcpy(inscricoes_exames[i].epoca, V[4]);
+			
+			inscricoes_exames[i].ocupado = 1;
+
+			for (k = 0; k < n_campos_lidos; k++)
+				free(V[k]);
+			free(V);
+			i++;
+		}
+	} while (!feof(f));
+
+	fclose(f);
+}
+
 // funcao que cria novos exames 
 void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas) {
 
@@ -130,7 +168,7 @@ void listar_exames(EXAMES* exames_bv){
 	printf("\n");
 }
 
-void menu_exames(EXAMES* exames_bv,INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas) {
+void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas) {
     int opcaoExame = -1; 
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");
