@@ -90,6 +90,34 @@ void import_txt_regimes(REGIMES* regimes, STRING* V) {
 
 }
 
+//export
+void export_alunos(ALUNOS* alunos) {
+	int i, k = 0;
+	FILE *f;
+	
+	
+	f = fopen("alunos.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro alunos.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if (alunos[i].ocupado == 1) {
+			fprintf(f, "%s|%s|%d|%d|%s",
+				alunos[i].nome, 
+				alunos[i].regime, 
+				alunos[i].ano_matricula, 
+				alunos[i].numero, 
+				alunos[i].curso
+			);
+		}
+	}
+	
+	fclose(f);
+}
+
 //funca que lista os regimes
 void listar_regimes(REGIMES* regimes) {
     int i = 0;
@@ -247,12 +275,12 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 }
 
 //valida exame
-int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, int numero_aluno) {
+int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, int numero_aluno, int opcao_aluno) {
 	int i = 0;
 	for ( i = 0; i < MAX_INSCRICOES; i++)
 	{
 		if (inscricoes_exames[i].ocupado == 1) {
-			if ((inscricoes_exames[i].numero_aluno == numero_aluno)) {
+			if (inscricoes_exames[i].numero_aluno == opcao_aluno) {
 				return 0;
 			}
 		} 
@@ -279,7 +307,7 @@ void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames){
 	} while (ID_aluno == -1);
 
 	//Valida de existe algum exame para o aluno 
-	if (valida_delete_aluno(inscricoes_exames, inscricoes_exames[ID_aluno].numero_aluno) == 0) {
+	if (valida_delete_aluno(inscricoes_exames, alunos, inscricoes_exames[ID_aluno].numero_aluno, opcao_aluno) == 0) {
 		printf("O aluno %s nao pode ser eliminado, pois tem exames marcados\n", alunos[ID_aluno].nome);
 	}
 	else {
@@ -292,6 +320,7 @@ void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames){
 		
 		printf("Registo eliminado com sucesso!\n\n");
 	}
+	export_alunos(alunos);
 }
 
 //funcao para editar aluno
@@ -313,7 +342,7 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 	} while (ID_aluno == -1);
 
 	//Valida de existe algum exame para exame para o aluno 
-	if (valida_delete_aluno(inscricoes_exames, inscricoes_exames[ID_aluno].numero_aluno) == 0) {
+	if (valida_delete_aluno(inscricoes_exames, alunos, inscricoes_exames[ID_aluno].numero_aluno, opcao_aluno) == 0) {
 		printf("O aluno %s nao pode ser editado, pois ja tem exames marcados\n", alunos[ID_aluno].nome);
 	}
 	else {
@@ -371,39 +400,11 @@ void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* 
 		}
 }
 
-//funcao export
-void export_alunos(ALUNOS* alunos) {
-	int i, k = 0;
-	FILE *f;
-	
-	
-	f = fopen("alunos.txt","w");
-	if (f == NULL){
-		printf("Erro ao abrir o ficheiro alunos.txt");
-		exit(1);
-	}
-	
-	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
-	{
-		if (alunos[i].ocupado == 1) {
-			fprintf(f, "%s|%s|%d|%d|%s",
-				alunos[i].nome, 
-				alunos[i].regime, 
-				alunos[i].ano_matricula, 
-				alunos[i].numero, 
-				alunos[i].curso
-			);
-		}
-	}
-	
-	fclose(f);
-}
-
 //menu relativo as salas
 void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAMES* inscricoes_exames) {
-    int opcao;
+    int opcao = -1;
 
-	while (1) {
+	while (opcao != 0) {
 		printf("\n");
 		printf("Bem-vindo ao menu das salas!\n");
 		printf("Escolha uma das opcoes:\n");
@@ -427,6 +428,7 @@ void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAM
 			editar_aluno(alunos, inscricoes_exames, regimes, cursos);
 			break;
 		case 4: //Apagar aluno
+			apagar_aluno(alunos, inscricoes_exames);
 		case 0:
 			break;
 		}

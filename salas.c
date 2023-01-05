@@ -53,36 +53,14 @@ void import_txt_salas(SALAS* salas, STRING* V) {
 
 }
 
-//funcao que exporta as salas de novo para o ficheiro
-void export_Salas(SALAS* salas) { 
-	int i= 0;
-	FILE *f;
-	
-	f = fopen("salas.txt","w");
-	if (f == NULL){
-		printf("Erro ao abrir o ficheiro salas.txt\n");
-		exit(1);
-	}
-	
-	for ( i = 0; i < MAX_SALAS; i++)
-	{
-		if (salas[i].ocupado == 1) {
-			fprintf(f, "%s|%s|%d\n", 
-			salas[i].codigo, salas[i].nome_sala, salas[i].lotacao );
-		}
-	}
-	
-	fclose(f);
-}
-
 // funcao que lista as salas 
 void listar_salas(SALAS* salas) {
 	int i;
-	printf("ID | Numero | Nome | Lotacao\n");
+	printf("Numero | Nome | Lotacao\n");
 	for (i = 0; i < MAX_SALAS; i++)
 	{
 		if (salas[i].ocupado == 1) {
-			printf("%d %s %s %d\n", salas[i].id, salas[i].codigo, salas[i].nome_sala, salas[i].lotacao);
+			printf("%s %s %d\n", salas[i].codigo, salas[i].nome_sala, salas[i].lotacao);
 		}
 	}
 }
@@ -197,8 +175,6 @@ void criar_sala(SALAS* salas) {
 	}
 	free(nome_sala);
 	free(codigo);
-
-	export_Salas(salas);
 }
 
 //valida se o numero da sala existe
@@ -214,12 +190,12 @@ int valida_cod_sala(SALAS* salas, int opcaoSala) {
 }
 
 //valida se a sala não está definida para algum exame
-int valida_delete_sala(EXAMES* exames_bv, int id) {
+int valida_delete_sala(EXAMES* exames, char* codigo) {
 	int i = 0;
 	for ( i = 0; i < MAX_EXAMES_FILE; i++)
 	{
-		if (exames_bv[i].ocupado == 1) {
-			if ((exames_bv[i].sala == id)) {
+		if (exames[i].ocupado == 1) {
+			if ((exames[i].sala == codigo)) {
 				return 0;
 			}
 		} 
@@ -228,7 +204,7 @@ int valida_delete_sala(EXAMES* exames_bv, int id) {
 }
 
 //Funcao que elimina a sala com validacoes
-void apagar_salas(SALAS* salas, EXAMES* exames_bv){
+void apagar_salas(SALAS* salas, EXAMES* exames){
 	int opcaoSala; 
 	int IDSala = 0;
 	//lista as salas
@@ -246,7 +222,7 @@ void apagar_salas(SALAS* salas, EXAMES* exames_bv){
 	} while (IDSala == -1);
 
 	//Valida de existe algum exame para a sala
-	if (valida_delete_sala(exames_bv, salas[IDSala].id, salas[IDSala].nome_sala) == 0) {
+	if (valida_delete_sala(exames, salas[IDSala].codigo) == 0) {
 		printf("A sala %s nao pode ser eliminada, pois ja tem exames marcados\n", salas[IDSala].nome_sala);
 	}
 	else {
@@ -260,18 +236,18 @@ void apagar_salas(SALAS* salas, EXAMES* exames_bv){
 }
 
 //funcao que edita dados das salas
-void editar_sala(SALAS* salas, EXAMES* exames_bv) {
+void editar_sala(SALAS* salas, EXAMES* exames) {
 	int opcaoSala; 
 	int IDSala;
 
 	//lista as unidades curriculares
 	listar_salas(salas);
-	//pede ao utilizador o codigo da unidade curricular
+	//pede ao utilizador o cid da sala
 	do
 	{
 		printf("Introduza o ID da sala (dentro das opcoes acima)\n"); 
 		printf("Sala:");
-		scanf("%s", &opcaoSala); 
+		scanf("%d", &opcaoSala); 
 		IDSala = valida_cod_sala(salas, opcaoSala);
 		if (IDSala == -1) {
 			printf("O numero %s nao se encontra na lista!\n\n", opcaoSala);
@@ -279,8 +255,8 @@ void editar_sala(SALAS* salas, EXAMES* exames_bv) {
 	} while (IDSala == -1);
 
 	//Valida de existe algum exame para a unidade curricular 
-	if (valida_delete_sala(exames_bv, salas[opcaoSala].nome_sala) == 0) {
-		printf("A unidade curricular %s nao pode ser editada, pois ja tem exames marcados\n", salas[IDSala].nome_sala);
+	if (valida_delete_sala(exames, salas[opcaoSala].codigo) == 0) {
+		printf("A sala %s nao pode ser editada, pois ja tem exames marcados\n", salas[IDSala].nome_sala);
 	}
 	else {
 		fflush(stdin);
@@ -307,7 +283,7 @@ void editar_sala(SALAS* salas, EXAMES* exames_bv) {
 		do {
 		printf("Indique lotacao\n");
 		scanf("%d", lotacao);
-		} while (strlen(lotacao) == 0);
+		} while (lotacao == 0);
 
 		//valida se a sala já existe no nosso vector
 		//No caso de retornar 1 a sala ja existe, caso contrario podemos inserir 
@@ -327,13 +303,33 @@ void editar_sala(SALAS* salas, EXAMES* exames_bv) {
 	
 }
 
-
+//funcao que exporta as salas de novo para o ficheiro
+void export_Salas(SALAS* salas) { 
+	int i= 0;
+	FILE *f;
+	
+	f = fopen("salas.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro salas.txt\n");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_SALAS; i++)
+	{
+		if (salas[i].ocupado == 1) {
+			fprintf(f, "%s|%s|%d\n", 
+			salas[i].codigo, salas[i].nome_sala, salas[i].lotacao );
+		}
+	}
+	
+	fclose(f);
+}
 
 //menu relativo as salas
-void menu_salas(SALAS* salas, EXAMES* exames_bv) {
+void menu_salas(SALAS* salas, EXAMES* exames) {
 	int opcao;
 
-	while (1) {
+	while (opcao !=0) {
 		printf("\n");
 		printf("Bem-vindo ao menu das salas!\n");
 		printf("Escolha uma das opcoes:\n");
@@ -354,12 +350,11 @@ void menu_salas(SALAS* salas, EXAMES* exames_bv) {
 			criar_sala(salas);
 			break;
 		case 3: //Editar salas 
-		editar_sala(salas, exames_bv);
+			editar_sala(salas, exames);
 			break;
 		case 4: //Apagar salas
-			apagar_salas(salas, exames_bv);
+			apagar_salas(salas, exames);
 		case 0: 
-			exit(0);
 			break;
 		}
 	}

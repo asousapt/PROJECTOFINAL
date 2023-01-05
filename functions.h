@@ -2,6 +2,8 @@
 #define FUNCTIONS_H
 #define STRING char *
 
+#include <locale.h>
+
 /**INICIO Da declaracao de estruturas**/
 //Definicao de estrutura de feriados 
 typedef struct
@@ -109,7 +111,7 @@ int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso)
 void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
 void import_txt_exames(EXAMES* exames, STRING* V);
 void import_txt_inscricoes_exames(INSCRICOESEXAMES* inscricoes_exames, STRING* V);
-void menu_exames(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos, INSCRICOESEXAMES* inscricoes_exames);
+void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas);
 void listar_exames(EXAMES* exames);
 void import_txt_alunos(ALUNOS* alunos, STRING* V);
 void import_txt_regimes(REGIMES* regimes, STRING* V);
@@ -121,7 +123,7 @@ int valida_aluno_existe(ALUNOS* alunos, int numero);
 int get_posicao_vect_alunos(ALUNOS* alunos);
 int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, int numero, char* curso);
 void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
-int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, int numero_aluno);
+int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, int numero_aluno, int opcao_aluno);
 void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames);
 void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* regimes, CURSO* cursos);
 void export_alunos(ALUNOS* alunos);
@@ -134,7 +136,7 @@ int get_posicao_vect_salas(SALAS* salas);
 int insere_sala(SALAS* salas, int id, char* codigo, char* nome_sala, int lotacao);
 void criar_sala(SALAS* salas);
 int valida_cod_sala(SALAS* salas, int opcaoSala);
-int valida_delete_sala(EXAMES* exames_bv, char* sala);
+int valida_delete_sala(EXAMES* exames, char* codigo);
 void apagar_salas(SALAS* salas, EXAMES* exames_bv);
 void export_Salas(SALAS* salas);
 void menu_salas(SALAS* salas, EXAMES* exames_bv);

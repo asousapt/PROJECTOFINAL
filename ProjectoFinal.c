@@ -1,8 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "functions.h"
 #include "feriados.c"
 #include "UnidadesCurriculares.c"
@@ -72,6 +72,7 @@ void main(int argc, char** argv) {
         printf("B: Unidades Curriculares\n");
         printf("C: Exames\n");
         printf("D: Salas\n");
+        printf("S - Guardar dados");
         printf("Opcao: ");
         scanf("%c", &escolha);
         system("cls");
