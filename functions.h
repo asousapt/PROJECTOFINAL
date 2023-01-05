@@ -77,6 +77,16 @@ typedef struct{
 	int ocupado;
 }SALAS;
 
+//definicao da estrutura inscricoes exames
+typedef struct{
+	int codigo;
+	char* unidade_curricular;
+	int numero_aluno;
+	int ano_matricula;
+	char* epoca;
+	int ocupado;
+}INSCRICOESEXAMES;
+
 /*FIM da definicao de estruturas*/
 
 STRING* Read_Split_Line_File(FILE* f, int* n_campos_lidos);
@@ -97,6 +107,7 @@ int get_newID_UC(UNIDADECURRICULAR* uc);
 int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso);
 void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
 void import_txt_exames(EXAMES* exames, STRING* V);
+void import_txt_inscricoes_exames(INSCRICOESEXAMES* inscricoes_exames, STRING* V);
 void menu_exames(EXAMES* exames);
 void listar_exames(EXAMES* exames);
 void import_txt_alunos(ALUNOS* alunos, STRING* V);
@@ -109,6 +120,10 @@ int valida_aluno_existe(ALUNOS* alunos, int numero);
 int get_posicao_vect_alunos(ALUNOS* alunos);
 int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, int numero, char* curso);
 void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
+int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, int numero_aluno);
+void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames);
+void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* regimes, CURSO* cursos);
+void export_alunos(ALUNOS* alunos);
 void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos);
 void import_txt_salas(SALAS* salas, STRING* V);
 void listar_salas(SALAS* salas);

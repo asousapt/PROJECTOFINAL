@@ -216,7 +216,6 @@ void apagar_salas(SALAS* salas, EXAMES* exames_bv){
 	}
 }
 
-
 //funcao que exporta as salas de novo para o ficheiro
 void export_Salas(SALAS* salas) { 
 	int i= 0;
@@ -239,6 +238,73 @@ void export_Salas(SALAS* salas) {
 	fclose(f);
 }
 
+//funcao que edita dados das salas
+void editar_sala(SALAS* salas, EXAMES* exames_bv) {
+	int opcaoSala; 
+	char* IDSala;
+
+	//lista as unidades curriculares
+	listar_salas(salas);
+	//pede ao utilizador o codigo da unidade curricular
+	do
+	{
+		printf("Introduza o numero da sala\n"); 
+		printf("Sala:");
+		scanf("%s", &opcaoSala); 
+		IDSala = valida_cod_sala(salas, opcaoSala);
+		if (IDSala == -1) {
+			printf("O codigo %s nao se encontra na lista!\n\n", opcaoSala);
+		}
+	} while (IDSala == -1);
+
+	//Valida de existe algum exame para a unidade curricular 
+	if (valida_delete_sala(exames_bv, salas[opcaoSala].nome_sala ) == 0) {
+		printf("A unidade curricular %s nao pode ser editada, pois ja tem exames marcados\n", salas[IDSala].descricao);
+	}
+	else {
+		fflush(stdin);
+		char* codigo;
+		codigo = (char *)malloc(sizeof(char) * 100);
+		char* nome_sala;
+		nome_sala = (char *)malloc(sizeof(char) * 100);
+		int lotacao; 
+		do
+		{
+			printf("Indique o novo numero da sala\n");
+			scanf("%s", codigo);
+		} while (strlen(codigo) == 0);
+
+		//vamos pedir o nome da sala 
+		do
+		{
+			printf("Qual o nome da sala?\n"); 
+			scanf("%s", nome_sala); 
+		} while (strlen(nome_sala) == 0); 
+
+		//seleccao do curso 
+
+		do {
+		printf("Indique lotacao\n");
+		scanf("%d", lotacao);
+		} while (strlen(lotacao) == 0);
+
+		//valida se a sala já existe no nosso vector
+		//No caso de retornar 1 a sala ja existe, caso contrario podemos inserir 
+		if (valida_sala_existe_vector(salas, nome_sala) == 1) {
+			printf("A sala já existe!\n"); 
+		} else { 
+			salas[IDSala].codigo = codigo; 
+			salas[IDSala].nome_sala = nome_sala;
+			salas[IDSala].lotacao = lotacao;
+			salas[IDSala].ocupado = 1;
+
+			printf("Unidade curricular editada com sucesso!\n\n");
+			free(codigo);
+			free(nome_sala);
+		}
+	}
+	
+}
 
 //menu relativo as salas
 void menu_salas(SALAS* salas, EXAMES* exames_bv) {
@@ -265,6 +331,7 @@ void menu_salas(SALAS* salas, EXAMES* exames_bv) {
 			criar_sala(salas);
 			break;
 		case 3: //Editar salas 
+		editar_sala(salas, exames_bv);
 			break;
 		case 4: //Apagar salas
 			apagar_salas(salas, exames_bv);

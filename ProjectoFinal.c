@@ -21,6 +21,7 @@
 #define MAX_SALAS 100
 #define MAX_REGIMES 5
 #define MAX_EPOCAS 10
+#define MAX_INSCRICOES 3000
 
 //Função Principal do programa
 void main(int argc, char** argv) {
@@ -43,7 +44,10 @@ void main(int argc, char** argv) {
     EXAMES* exames = (EXAMES*)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
     import_txt_exames(exames, V);
     
-    
+    //carrega os dados das inscricoes dos exames em memoria
+    INSCRICOESEXAMES* inscricoes_exames = (INSCRICOESEXAMES*)malloc(MAX_INSCRICOES * sizeof(INSCRICOESEXAMES));
+    import_txt_inscricoes_exames(inscricoes_exames, V);
+
     //carrega os dados dos regimes em memoria
     REGIMES* regimes = (REGIMES*)malloc(MAX_REGIMES * sizeof(REGIMES));
     import_txt_regimes(regimes, V);
@@ -82,7 +86,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'C': // menu de exames
-            menu_exames(exames);
+            menu_exames(exames, inscricoes_exames);
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);

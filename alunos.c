@@ -13,6 +13,7 @@
 #define MAX_CURSOS 20
 #define MAX_ALUNOS 3000
 #define MAX_REGIMES 5
+#define MAX_INSCRICOES 3000
 
 
 //passa para o vecto a informacao do ficheiro alunos.txt
@@ -183,7 +184,7 @@ int insere_aluno(ALUNOS* alunos, char* nome, char* regime, int ano_matricula, in
 	return 1;
 }
 
-//criar salas
+//criar aluno
 void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	//vamos pedir ao utilizador os dados para criar o novo aluno
 				//declarecao de variaveis necessarias
@@ -245,6 +246,132 @@ void criar_aluno(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
 	free(nome);
 }
 
+//valida exame
+int valida_delete_aluno(INSCRICOESEXAMES* inscricoes_exames, int numero_aluno) {
+	int i = 0;
+	for ( i = 0; i < MAX_INSCRICOES; i++)
+	{
+		if (inscricoes_exames[i].ocupado == 1) {
+			if ((inscricoes_exames[i].numero_aluno == numero_aluno)) {
+				return 0;
+			}
+		} 
+	}
+	return 1;
+}
+
+//Funcao que elimina o aluno com validacoes
+void apagar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames){
+	int opcao_aluno; 
+	int ID_aluno = 0;
+	//lista os alunos
+	listar_alunos(alunos);
+	//pede ao utilizador o numero do aluno
+	do
+	{
+		printf("Introduza o numero do aluno\n"); 
+		printf("Numero do aluno:");
+		scanf("%d", &opcao_aluno); 
+		ID_aluno = valida_cod_aluno(alunos, opcao_aluno);
+		if (ID_aluno == -1) {
+			printf("O numero %d nao se encontra na lista!\n\n", opcao_aluno);
+		}
+	} while (ID_aluno == -1);
+
+	//Valida de existe algum exame para o aluno 
+	if (valida_delete_aluno(inscricoes_exames, alunos[ID_aluno].numero) == 0) {
+		printf("O aluno %s nao pode ser eliminado, pois tem exames marcados\n", alunos[ID_aluno].nome);
+	}
+	else {
+		alunos[ID_aluno].ocupado = 0;
+		alunos[ID_aluno].nome = "";
+		alunos[ID_aluno].regime = "";
+		alunos[ID_aluno].ano_matricula = 0;
+		alunos[ID_aluno].numero = 0;
+		alunos[ID_aluno].curso = "";
+		
+		printf("Registo eliminado com sucesso!\n\n");
+	}
+}
+
+//funcao para editar aluno
+void editar_aluno(ALUNOS* alunos, INSCRICOESEXAMES* inscricoes_exames, REGIMES* regimes, CURSO* cursos) {
+	int opcao_aluno; 
+	int ID_aluno = 0;
+	//lista os alunos
+	listar_alunos(alunos);
+	//pede ao utilizador o numero do aluno
+	do
+	{
+		printf("Introduza o numero do aluno\n"); 
+		printf("Numero aluno:");
+		scanf("%d", &opcao_aluno); 
+		ID_aluno = valida_aluno_existe(alunos, opcao_aluno);
+		if (ID_aluno == -1) {
+			printf("O numero inserido %d nao se encontra na lista!\n\n", opcao_aluno);
+		}
+	} while (ID_aluno == -1);
+
+	//Valida de existe algum exame para exame para o aluno 
+	if (valida_delete_aluno(inscricoes_exames, alunos[ID_aluno].nome) == 0) {
+		printf("O aluno %s nao pode ser editado, pois ja tem exames marcados\n", alunos[ID_aluno].nome);
+	}
+	else {
+		fflush(stdin);
+		char* nome;
+		nome = (char *)malloc(sizeof(char) * 100);
+		int opcao_regime;
+		int ano_matricula; 
+		int numero; 
+		int opcao_curso;
+		do
+		{
+			printf("Indique o novo nome do aluno\n");
+			scanf("%s", nome);
+		} while (strlen(nome) == 0);
+
+		//vamos pedir regime do aluno 
+		do
+		{
+			listar_regimes(regimes);
+			printf("Qual regime do aluno? (Escolha uma das opcoes acima)\n"); 
+			scanf("%d", &opcao_regime); 
+		} while (strlen(opcao_regime) == 0); 
+
+		// introducao do ano de matricula
+		do{
+			printf("Indique o ano (1,2,3)de matricula do aluno: \n");
+			scanf("%d", &ano_matricula);
+		}while (valida_ano_matricula(ano_matricula) == 0);
+
+		//seleccao do numero do aluno
+		do 
+		{
+			printf("Indique o novo numero do aluno\n");
+			scanf("%d", numero);
+		} while (valida_aluno_existe(alunos, numero) == 0);
+
+		//selecao do curso
+		do
+		{
+			listar_cursos(cursos);
+			printf("Qual o curso do aluno? (Escolha uma das opcoes acima)\n"); 
+			scanf("%d", &opcao_curso); 
+		} while (strlen(opcao_curso) == 0); 
+		
+		alunos[ID_aluno].nome = nome; 
+		alunos[ID_aluno].regime = regimes[opcao_regime].regime;
+		alunos[ID_aluno].ano_matricula = ano_matricula;
+		alunos[ID_aluno].numero = numero;
+		alunos[ID_aluno].curso = cursos[opcao_curso].descricao;
+		alunos[ID_aluno].ocupado = 1;
+
+			printf("Aluno editado com sucesso!\n\n");
+			free(nome);
+		}
+}
+
+//funcao export
 void export_alunos(ALUNOS* alunos) {
 	int i, k = 0;
 	FILE *f;
@@ -271,7 +398,6 @@ void export_alunos(ALUNOS* alunos) {
 	
 	fclose(f);
 }
-
 
 //menu relativo as salas
 void menu_alunos(ALUNOS* alunos, REGIMES* regimes, CURSO* cursos) {
