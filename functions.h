@@ -43,6 +43,7 @@ typedef struct
 {
 	int codigo;
 	char* unidade_curricular;
+	int ano; 
 	char* curso;
 	char* epoca;
 	char* data;
@@ -90,6 +91,13 @@ typedef struct{
 	int ocupado;
 }INSCRICOESEXAMES;
 
+typedef struct{
+	int dia; 
+	int mes; 
+	int ano;
+}DATA;
+
+
 /*FIM da definicao de estruturas*/
 
 STRING* Read_Split_Line_File(FILE* f, int* n_campos_lidos);
@@ -109,10 +117,10 @@ int get_posicao_vect_UC(UNIDADECURRICULAR* uc);
 int get_newID_UC(UNIDADECURRICULAR* uc);
 int valida_UC_existe_vector(UNIDADECURRICULAR* uc, char* descricao, char* curso);
 void menu_uc(UNIDADECURRICULAR* uc, CURSO* cursos, EXAMES* exames_bv);
-void import_txt_exames(EXAMES* exames, STRING* V);
+void import_txt_exames(EXAMES* exames, STRING* V, UNIDADECURRICULAR* uc);
 void import_txt_inscricoes_exames(INSCRICOESEXAMES* inscricoes_exames, STRING* V);
 void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas);
-void listar_exames(EXAMES* exames);
+void listar_exames(EXAMES* exames, int jarealizados);
 void import_txt_alunos(ALUNOS* alunos, STRING* V);
 void import_txt_regimes(REGIMES* regimes, STRING* V);
 void listar_regimes(REGIMES* regimes);
@@ -133,7 +141,7 @@ void listar_salas(SALAS* salas);
 int valida_sala_existe_vector(SALAS* salas, char* nome_sala);
 int get_newID_sala(SALAS* salas);
 int get_posicao_vect_salas(SALAS* salas);
-int insere_sala(SALAS* salas, int id, char* codigo, char* nome_sala, int lotacao);
+int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao);
 void criar_sala(SALAS* salas);
 int valida_cod_sala(SALAS* salas, int opcaoSala);
 int valida_delete_sala(EXAMES* exames, char* codigo);
@@ -143,5 +151,11 @@ void menu_salas(SALAS* salas, EXAMES* exames_bv);
 void export_feriados(FERIADOS* feriado);
 void export_alunos(ALUNOS* alunos);
 void import_txt_epocas(EPOCAS* epocas, STRING* V);
+char *trim(char *string);
+DATA* data_actual(DATA* DataActual);
+DATA* coloca_data_em_struct(char* datastr, DATA* data_exame);
+int exame_ja_realizado(DATA* data_actual, DATA* data_exame);
+
+
 
 #endif 

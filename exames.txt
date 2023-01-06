@@ -15,7 +15,7 @@
 15|Usabilidade|EI|Normal|20/01/2023|14:00|120|S12, S15|30
 16|Programacao Orientada aos Objectos|EI|Recurso|12/02/2023|09:30|90|S15, S22|45
 17|Analise de Sistemas|EI|Recurso|14/02/2022|14:00|90|S17, S21|40
-18|Sistemas Operativos|EI|Recurso|15/02/2022	09:30	120|S22, S23|35|EI|0
+18|Sistemas Operativos|EI|Recurso|15/02/2022|09:30|120|S22, S23|35
 19|Aplicacoes para a Internet I|EI|Recurso|15/02/2022|14:00|90|LI6, LI4|30
 20|Usabilidade|EI|Recurso|16/02/2022|09:30|90|S14, S15|30
 21|Seguranca Informatica|EI|Normal|02/01/2023|09:30|120|S12, S13|30

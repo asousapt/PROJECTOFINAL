@@ -42,7 +42,7 @@ void main(int argc, char** argv) {
 
     //carrega os dados dos exames em memoria
     EXAMES* exames = (EXAMES*)malloc(MAX_EXAMES_FILE * sizeof(EXAMES));
-    import_txt_exames(exames, V);
+    import_txt_exames(exames, V, uc);
     
     //carrega os dados das inscricoes dos exames em memoria
     INSCRICOESEXAMES* inscricoes_exames = (INSCRICOESEXAMES*)malloc(MAX_INSCRICOES * sizeof(INSCRICOESEXAMES));
@@ -72,7 +72,7 @@ void main(int argc, char** argv) {
         printf("B: Unidades Curriculares\n");
         printf("C: Exames\n");
         printf("D: Salas\n");
-        printf("S - Guardar dados");
+        printf("S - Guardar dados e sair\n");
         printf("Opcao: ");
         scanf("%c", &escolha);
         system("cls");
@@ -98,6 +98,7 @@ void main(int argc, char** argv) {
             export_UC(uc);
             export_feriados(feriado);
             export_alunos(alunos);
+            
             break;
         }
     }

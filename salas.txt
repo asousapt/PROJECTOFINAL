@@ -1,3 +1,4 @@
+ID_SALA|DESIGNACAO|0
 A1|Auditorio 1|50
 A2|Auditorio 2|50
 A3|Auditorio 3|50

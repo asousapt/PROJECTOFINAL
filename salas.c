@@ -30,15 +30,14 @@ void import_txt_salas(SALAS* salas, STRING* V) {
 		V = Read_Split_Line_File(f, &n_campos_lidos);
 		if (V != NULL) {// caso consigamos ler alguma informacao			
 
-			salas[i].id = atoi(V[0]);
+		
+			salas[i].codigo = (char*)malloc(sizeof(char) * (strlen(V[0]) + 1));
+			strcpy(salas[i].codigo, V[0]);
 
-			salas[i].codigo = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
-			strcpy(salas[i].codigo, V[1]);
+			salas[i].nome_sala = (char*)malloc(sizeof(char) * (strlen(V[1]) + 5));
+			strcpy(salas[i].nome_sala, V[1]);
 
-			salas[i].nome_sala = (char*)malloc(sizeof(char) * (strlen(V[2]) + 5));
-			strcpy(salas[i].nome_sala, V[2]);
-
-			salas[i].lotacao = atoi(V[3]);
+			salas[i].lotacao = atoi(V[2]);
 
 			salas[i].ocupado = 1;
 
@@ -66,13 +65,13 @@ void listar_salas(SALAS* salas) {
 }
 
 //verifica se a sala ja existe
-int valida_sala_existe_vector(SALAS* salas, char* nome_sala) {
+int valida_sala_existe_vector(SALAS* salas, char* codigo_sala) {
 	int i = 0; 
 	for ( i = 0; i < MAX_SALAS; i++)
 	{
 		if (salas[i].ocupado == 1) {
 			
-			if (strcmp(salas[i].nome_sala, nome_sala) == 0) { 
+			if (strcmp(salas[i].codigo, codigo_sala) == 0) { 
 				return 1;
 			}	
 		}
@@ -80,17 +79,6 @@ int valida_sala_existe_vector(SALAS* salas, char* nome_sala) {
 	return 0;
 }
 
-//new ID
-int get_newID_sala(SALAS* salas) {
-	int i, ID= 0; 
-	for ( i = 0; i < MAX_SALAS; i++)
-	{
-		if ((salas[i].ocupado == 1) && (i < MAX_SALAS)) {
-			ID = salas[i].id + 1;
-		}
-	}
-	return ID;
-}
 
 //
 int get_posicao_vect_salas(SALAS* salas) {
@@ -105,17 +93,14 @@ int get_posicao_vect_salas(SALAS* salas) {
 }
 
 //Insere sala
-int insere_sala(SALAS* salas, int id, char* codigo, char* nome_sala, int lotacao) {
-	int ID = 0;
+int insere_sala(SALAS* salas, char* codigo, char* nome_sala, int lotacao) {
 	int posicaoVazia = 0;
 	posicaoVazia = get_posicao_vect_salas(salas); 
 	if (posicaoVazia == -1) {
 		return -1;
 	}
-	ID = get_newID_sala(salas);
 	
 	//insere a nova unidade curricular no vector 
-	salas[posicaoVazia].id = ID;
 	salas[posicaoVazia].codigo = codigo;
 	salas[posicaoVazia].nome_sala = nome_sala;
 	salas[posicaoVazia].lotacao = lotacao;
@@ -128,7 +113,7 @@ int insere_sala(SALAS* salas, int id, char* codigo, char* nome_sala, int lotacao
 void criar_sala(SALAS* salas) {
 	//vamos pedir ao utilizador os dados para criar a nova sala
 				//declaracao de variaveis necessarias
-	int id = 0;
+	
 	char* codigo;
 	codigo = (char *)malloc(sizeof(char) * 10);
 	char* nome_sala;
@@ -159,11 +144,11 @@ void criar_sala(SALAS* salas) {
 
 	//valida se a sala já existe no nosso vector
 	//No caso de retornar 1 a UC ja existe, caso contrario podemos inserir 
-	if (valida_sala_existe_vector(salas, nome_sala) == 1) {
+	if (valida_sala_existe_vector(salas, codigo) == 1) {
 		printf("A unidade curricular já existe!\n");
 	}
 	else {
-		if (insere_sala(salas, id,  codigo, nome_sala, lotacao)) { //==1
+		if (insere_sala(salas,  codigo, nome_sala, lotacao)) { //==1
 			printf("Sala inserida com sucesso!\n");
 			printf("\n");
 		}
