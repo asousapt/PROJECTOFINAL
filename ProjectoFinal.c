@@ -28,6 +28,11 @@ void main(int argc, char** argv) {
     STRING* V;
     char escolha;
     /* Carregamento em memoria de todos os ficheiros txt do projecto*/
+
+     //carrega os dados das epocas
+    EPOCAS* epocas = (EPOCAS*)malloc(MAX_SALAS * sizeof(EPOCAS));
+    import_txt_epocas(epocas, V);
+
     //carrega o ficheiro dos feriados em memoria
     FERIADOS* feriado = (FERIADOS*)malloc(MAX_FERIADOS * sizeof(FERIADOS));
     import_feriados(feriado, V);
@@ -60,9 +65,7 @@ void main(int argc, char** argv) {
     SALAS* salas = (SALAS*)malloc(MAX_SALAS * sizeof(SALAS));
     import_txt_salas(salas, V);
 
-    //carrega os dados das epocas
-    EPOCAS* epocas = (EPOCAS*)malloc(MAX_SALAS * sizeof(EPOCAS));
-    import_txt_epocas(epocas, V);
+   
 
     /* Termina o carregamento de variaveis em memoria */
     while (1) {
@@ -87,7 +90,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'C': // menu de exames
-            menu_exames(exames, inscricoes_exames, alunos, salas);
+            menu_exames(exames, inscricoes_exames, alunos, salas, epocas, uc, cursos);
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);

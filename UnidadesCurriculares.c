@@ -53,7 +53,7 @@ void import_txt_cursos(CURSO* curso, STRING* V) {
 		if (V != NULL) {// caso consigamos ler alguma informacao			
 
 			curso[i].codcurso = (char*)malloc(sizeof(char) * (strlen(V[0]) + 1));
-			strcpy(curso[i].codcurso, V[0]);
+			strcpy(curso[i].codcurso, trim(V[0]));
 			
 			curso[i].descricao = (char*)malloc(sizeof(char) * (strlen(V[1]) + 5));
 			strcpy(curso[i].descricao, V[1]);
@@ -92,15 +92,15 @@ void import_txt_uc(UNIDADECURRICULAR* uc, STRING* V) { //, STRING* V
 			uc[i].descricao = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
 			strcpy(uc[i].descricao, V[1]);
 			
-			uc[i].docente = (char*)malloc(sizeof(char) * (strlen(V[2]) + 5));
+			uc[i].docente = (char*)malloc(sizeof(char) * (strlen(V[2]) + 1));
 			strcpy(uc[i].docente, V[2]);
 			
 			uc[i].ano = atoi(V[3]);
 
 			uc[i].semestre = atoi(V[4]);
 
-			uc[i].curso = (char*)malloc(sizeof(char) * (strlen(V[5]) + 5));
-			strcpy(uc[i].curso, V[5]);
+			uc[i].curso = (char*)malloc(sizeof(char) * (strlen(V[5]) + 1));
+			strcpy(uc[i].curso, trim(V[5]));
 
 			uc[i].ocupado = 1;
 
@@ -125,6 +125,29 @@ void listar_UC(UNIDADECURRICULAR* uc) {
 		}
 	}
 }
+
+void listar_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre) {
+	int i;
+
+	printf("%-2s %s %40s %17s %7s %10s\n", "Cod", "Nome","Docente", "Curso", "Ano", "Semestre");
+	for (i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if (uc[i].ocupado == 1) {
+			
+			if ((strcmp(uc[i].curso, curso) == 0) && (semestre == 3)) {
+				printf("%-3d %-37s %-19s %s %d %d\n",uc[i].codigo, uc[i].descricao, uc[i].docente, uc[i].curso, uc[i].ano, uc[i].semestre);
+			}
+			
+				if ((strcmp(uc[i].curso, curso) == 0) && (uc[i].semestre == semestre)) {
+					printf("%-3d %-37s %-19s %s %d %d\n",uc[i].codigo, uc[i].descricao, uc[i].docente, uc[i].curso, uc[i].ano, uc[i].semestre);
+				}
+		}
+
+	}
+}
+		
+	
+
 
 //funcao que lista os cursos do vector cursos
 void listar_cursos(CURSO* cursos) {

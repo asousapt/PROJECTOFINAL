@@ -13,6 +13,7 @@
 #define MAX_LINHA_FICHEIRO 300
 #define MAX_EXAMES_FILE 100
 #define MAX_UNIDADES_CURRICULARES 100
+#define MAX_EPOCAS 10
 
 char *trim(char *str)
 {
@@ -215,10 +216,75 @@ int i = 0, k, n_campos_lidos;
 	fclose(f);
 }
 
-// funcao que cria novos exames 
-void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas) {
-	//nesta funcao vamos criar um novo exame
+int valida_epoca(EPOCAS* epocas, int opcao) {
+	int i = 0; 
+	
+	for ( i = 0; i < MAX_EPOCAS; i++)
+	{
+		if ((epocas[i].ocupado == 1) && (epocas[i].codigo == opcao)) {
+			return i;
+		} 
+	}
+	
+	return -1; 
+}
 
+// funcao que cria novos exames 
+void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas, EPOCAS* epocas, CURSO* cursos) {
+	int opcaoepoca = -1;
+	int posicaoCurso = 0;
+	int semestre = 0;
+	char* curso;
+	char* epoca = (char*)malloc(sizeof(char)*10);
+	curso = (char*)malloc(sizeof(char)*10);
+	DATA* data_inicio_epoca = (DATA*)malloc(sizeof(DATA)); 
+	DATA* data_fim_epoca = (DATA*)malloc(sizeof(DATA)); 
+	DATA* data_introduzida = (DATA*)malloc(sizeof(DATA));
+
+	//nesta funcao vamos criar um novo exame
+	do
+	{
+		printf("\n*** SELECAO DE EPOCA ***\n");
+		lista_epocas(epocas);
+		printf("Indique o codigo da epoca\n"); 
+		scanf("%i", &opcaoepoca);
+		if ( valida_epoca(epocas, opcaoepoca) == -1) {
+			opcaoepoca = -1;
+		} else  {
+			opcaoepoca = valida_epoca(epocas, opcaoepoca);
+		}
+	} while (opcaoepoca == -1);
+	
+	//coloca as datas de inicio e fim da epoca numa struct
+	coloca_data_em_struct(epocas[opcaoepoca].dataInicio, data_inicio_epoca);
+	coloca_data_em_struct(epocas[opcaoepoca].dataFim, data_inicio_epoca);
+	semestre = epocas[opcaoepoca].semestre;
+	epoca = epocas[opcaoepoca].epoca;
+
+	printf("\nSeleccionou a epoca %s que vai de %s ate %s\n", epoca,epocas[opcaoepoca].dataInicio, epocas[opcaoepoca].dataFim);
+	// if(strcmp(epoca, "Especial") == 0) {
+	// 	printf("es");
+	// } 
+	// else {
+		printf("Qual o curso para o qual quer marcar exame?\n" ); 
+		
+		do {
+		listar_cursos(cursos);
+		printf("Indique o curso da lista acima\n");
+		scanf("%d", &posicaoCurso);
+		} while (valida_curso_escolhido( cursos, posicaoCurso) == 0);
+		
+		curso = cursos[posicaoCurso].codcurso;
+		printf("%d", semestre);
+		// Vamos escolher a UC
+		listar_UC_curso_semestre(uc, curso, semestre);
+	// }
+
+
+
+	free(data_inicio_epoca);
+	free(data_fim_epoca);
+	free(data_introduzida);
 }
 
 //funcao que valida se o exame que introduziu pode ser apagado 
@@ -234,9 +300,7 @@ int valida_codigo_exame_apagar(EXAMES* exames_bv, int codigo_exame) {
 	}
 	return -1;
 }
-
-
-
+// funcao responsavel por apagar um exame da estrutura
 void apagar_exame(EXAMES * exames_bv) {
 	int codigoexame = 0;
 	int posicao_apagar = -1;
@@ -335,7 +399,7 @@ void listar_exames(EXAMES* exames_bv, int jarealizados){
 	printf("\n");
 }
 
-void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas) {
+void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas, EPOCAS* epocas, UNIDADECURRICULAR* uc, CURSO* cursos) {
     int opcaoExame = -1; 
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");
@@ -348,7 +412,8 @@ void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS*
         case 1: //Listar exames
            listar_exames(exames_bv, 0);
             break;
-		case 2: // Adicionar novo exame 
+		case 2: // Adicionar novo exame
+			criar_Exame(exames_bv, alunos, uc,  salas,  epocas, cursos);
 			break;
 		case 3: // editar Exame 
 			break;

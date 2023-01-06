@@ -12,7 +12,7 @@
 
 
 
-//passa para o vecto a informacao do ficheiro salas.txt
+//passa para o vecto a informacao do ficheiro epocas.txt
 void import_txt_epocas(EPOCAS* epocas, STRING* V) {
 	int i = 0, k, n_campos_lidos;
 
@@ -25,19 +25,22 @@ void import_txt_epocas(EPOCAS* epocas, STRING* V) {
 
 	do {
 		V = Read_Split_Line_File(f, &n_campos_lidos);
-		if (V != NULL) {// caso consigamos ler alguma informacao			
+		if (V != NULL) {// caso consigamos ler alguma informacao	
 
-			epocas[i].epoca = (char*)malloc(sizeof(char) * (strlen(V[0]) + 1));
-			strcpy(epocas[i].epoca, V[0]);
+			epocas[i].codigo = atoi(V[0]);	
 
-			epocas[i].dataInicio = (char*)malloc(sizeof(char) * (strlen(V[1]) + 5));
-			strcpy(epocas[i].dataInicio, V[1]);
+			epocas[i].epoca = (char*)malloc(sizeof(char) * (strlen(V[1]) + 1));
+			strcpy(epocas[i].epoca, V[1]);
 
-            epocas[i].dataFim = (char*)malloc(sizeof(char) * (strlen(V[2]) + 1));
-			strcpy(epocas[i].dataFim, V[2]);
+			epocas[i].dataInicio = (char*)malloc(sizeof(char) * (strlen(V[2]) + 5));
+			strcpy(epocas[i].dataInicio, V[2]);
 
-			epocas[i].semestre = atoi(V[3]);
+            epocas[i].dataFim = (char*)malloc(sizeof(char) * (strlen(V[3]) + 1));
+			strcpy(epocas[i].dataFim, V[3]);
 
+			epocas[i].semestre = atoi(V[4]);
+			
+			epocas[i].ocupado = 1;
 
 			for (k = 0; k < n_campos_lidos; k++)
 				free(V[k]);
@@ -48,4 +51,15 @@ void import_txt_epocas(EPOCAS* epocas, STRING* V) {
 
 	fclose(f);
 
+}
+
+void lista_epocas(EPOCAS* epocas) {
+	int i = 0;
+	printf("\n%s %s %s %s\n", "Cod", "Epoca", "Data Inicio", "Data Fim");
+	for ( i = 0; i < MAX_EPOCAS; i++)
+	{
+		if (epocas[i].ocupado == 1){
+			printf("%d %s %s %s\n",epocas[i].codigo, epocas[i].epoca, epocas[i].dataInicio, epocas[i].dataFim);
+		}
+	}
 }
