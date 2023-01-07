@@ -159,7 +159,7 @@ DATA* coloca_data_em_struct(char* datastr, DATA* data_exame);
 int exame_ja_realizado(DATA* data_actual, DATA* data_exame);
 void lista_epocas(EPOCAS* epocas);
 void listar_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre);
-
+int valida_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre, int opcao);
 
 
 #endif 

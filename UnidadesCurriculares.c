@@ -146,7 +146,26 @@ void listar_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre) 
 	}
 }
 		
-	
+//Funcao que valida se o utilizador introduziu uma opcao certa
+int valida_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre, int opcao) {
+	int i;
+
+	for (i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
+	{
+		if (uc[i].ocupado == 1) {
+			if ((strcmp(uc[i].curso, curso) == 0) && (semestre == 3) && (uc[i].codigo == opcao)) {
+				return i;
+			}
+			
+				if ((strcmp(uc[i].curso, curso) == 0) && (uc[i].semestre == semestre) && (uc[i].codigo == opcao)) {
+					return i;
+				}
+		}
+
+	}
+	return -1;
+}
+
 
 
 //funcao que lista os cursos do vector cursos

@@ -229,12 +229,52 @@ int valida_epoca(EPOCAS* epocas, int opcao) {
 	return -1; 
 }
 
+int validacao_data() {
+	int ano, mes, dia = 0;	
+	int data_valida = 1;
+	DATA* hoje = (DATA*)malloc(sizeof(DATA));
+	DATA* datainserida = (DATA*)malloc(sizeof(DATA));
+	hoje = data_actual(hoje);
+	do
+	{
+		printf("Qual a data pretendida? O formato e dd mm aaaa\n");
+		scanf("%d %d %d", &dia, &mes, &ano);
+		if (ano < hoje->ano) {
+			data_valida = 0;
+		} else {
+			if (mes < 1 || mes > 12) {
+				data_valida = 0;
+			} else {
+				if (dia < 1 || dia > 31) {
+					data_valida = 0;
+				}
+				else {
+					datainserida->ano = ano; 
+					datainserida->mes = mes; 
+					datainserida->dia = dia; 
+
+					data_valida = exame_ja_realizado(hoje, datainserida);
+				}
+			}
+		}
+		
+	} while (data_valida == 0);
+	
+	
+	free(datainserida);
+	free(hoje);
+	return 1;
+}
+
 // funcao que cria novos exames 
 void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas, EPOCAS* epocas, CURSO* cursos) {
 	int opcaoepoca = -1;
+	int opcaoUC = -1;
 	int posicaoCurso = 0;
 	int semestre = 0;
+	char* unidade_curricular =(char*)malloc(sizeof(char)*50);
 	char* curso;
+	char* datastr = (char*)malloc(sizeof(char) * 11);
 	char* epoca = (char*)malloc(sizeof(char)*10);
 	curso = (char*)malloc(sizeof(char)*10);
 	DATA* data_inicio_epoca = (DATA*)malloc(sizeof(DATA)); 
@@ -276,12 +316,31 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 		
 		curso = cursos[posicaoCurso].codcurso;
 		printf("%d", semestre);
+		
 		// Vamos escolher a UC
-		listar_UC_curso_semestre(uc, curso, semestre);
+		do
+		{
+			listar_UC_curso_semestre(uc, curso, semestre);
+			printf("\nIndiqu o codigo da unidade curricular\n");
+			scanf("%d", &opcaoUC);
+		} while (valida_UC_curso_semestre( uc,curso,semestre, opcaoUC) == -1);
+		
+		int posicaoUC = valida_UC_curso_semestre( uc,curso,semestre, opcaoUC);
+		
+		unidade_curricular = uc[posicaoUC].descricao;
+		printf("\nEscolheu a unidade curricular de %s\n" , unidade_curricular); 
+		do
+		{
+			validacao_data();
+		} while (validacao_data() == 0);
+
+
+
+
 	// }
 
 
-
+	free(unidade_curricular);
 	free(data_inicio_epoca);
 	free(data_fim_epoca);
 	free(data_introduzida);
