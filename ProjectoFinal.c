@@ -11,6 +11,7 @@
 #include "alunos.c"
 #include "epocas.c"
 #include "exames_salas.c"
+#include"inscricao_exames.c"
 
 
 #define MAX_EXAMES_FILE 100
@@ -78,6 +79,7 @@ void main(int argc, char** argv) {
         printf("B: Unidades Curriculares\n");
         printf("C: Exames\n");
         printf("D: Salas\n");
+        printf("F: Exames e inscricoes\n");
         printf("S - Guardar dados e sair\n");
         printf("Opcao: ");
         scanf("%c", &escolha);
@@ -97,6 +99,9 @@ void main(int argc, char** argv) {
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);
+            break;
+        case 'F': // menu inscricoes
+             menu_inscricao_exames( inscricoes_exames, exames, alunos, regimes);
             break;
         case 'S': //grava tudo nos ficheiros 
             export_Salas(salas);

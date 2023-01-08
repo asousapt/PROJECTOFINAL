@@ -90,6 +90,7 @@ typedef struct{
 	int numero_aluno;
 	int ano_matricula;
 	char* epoca;
+	char* regime;
 	int ocupado;
 }INSCRICOESEXAMES;
 
@@ -111,6 +112,7 @@ typedef struct
 
 
 /*FIM da definicao de estruturas*/
+void menu_inscricao_exames(INSCRICOESEXAMES* inscricoes_exames, EXAMES* exames, ALUNOS* alunos, REGIMES* regimes);
 void export_exames_salas(EXAMESSALAS* exames_salas);
 void consulta_Salas_exame(EXAMES* exames_bv, EXAMESSALAS* exames_salas, SALAS* salas);
 void listar_exames(EXAMES* exames_bv, int jarealizados);
