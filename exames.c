@@ -265,47 +265,62 @@ int e_feriado(DATA* datainserida, FERIADOS* feriados_datas) {
 	return 0;
 }
 
-int numero_dias_entre_exames(EXAMES* exames_bv, DATA* datainserida) {
+// funcao valida se existem exames marcados com 3 dias de intervalo
+int numero_dias_entre_exames(EXAMES* exames_bv, DATA* datainserida, char* curso, int ano) {
 	int i = 0; 
 	for ( i = 0; i < MAX_EXAMES_FILE; i++)
 	{
-		if (exames_bv[i].ocupado == 1) {
+		if (exames_bv[i].ocupado == 1 && exames_bv[i].realizado == 0) {
 			struct tm tm1 = { 0 };
     		struct tm tm2 = { 0 };
 			DATA* data_exame = (DATA*)malloc(sizeof(DATA));
 			coloca_data_em_struct(exames_bv[i].data, data_exame);
 
-			tm1.tm_year = datainserida->ano;
-			tm1.tm_mon = datainserida->mes;
-			tm1.tm_mday = datainserida->dia;
+			 time_t start_standard, end_standard;
+			struct tm start_date = {0};
+			struct tm end_date = {0};
+			double diff;
 
-			tm2.tm_year = data_exame->ano;
-			tm2.tm_mon = data_exame->mes;
-			tm2.tm_mday = data_exame->dia;
+			start_date.tm_year = datainserida->ano;
+			start_date.tm_mon = datainserida->mes;
+			start_date.tm_mday = datainserida->dia;
+			start_date.tm_hour = 10;
+			start_date.tm_min = 00;
+			start_date.tm_sec = 00;
 
-			time_t t1 = mktime(&tm1);
-    		time_t t2 = mktime(&tm2);
+			end_date.tm_mday = data_exame->dia;
+			end_date.tm_mon = data_exame->mes;
+			end_date.tm_year = data_exame->ano;
+			end_date.tm_hour = 10;
+			end_date.tm_min = 00;
+			end_date.tm_sec = 00;
 
-    		double dt = difftime(t1, t2);
-    		int days = round(dt / 86400);
+			/* first with standard time */
+			start_date.tm_isdst = 0;
+			end_date.tm_isdst = 0;
+			start_standard = mktime(&start_date);
+			end_standard = mktime(&end_date);
+			diff = difftime(start_standard, end_standard);
 
-			printf("%s %dn",exames_bv[i].data, days);
-
+			if (diff > -3 && diff < 3) {
+				return 0;
+			}
 			free(data_exame);
 		}
 	}
-	return 0;
+	return 1;
 }
 
-DATA* validacao_data(DATA* datainserida, DATA* datainicio, DATA* datafim, FERIADOS* feriado, EXAMES* exames_bv) {
+DATA* validacao_data(DATA* datainserida, DATA* datainicio, DATA* datafim, FERIADOS* feriado, EXAMES* exames_bv, char* curso_escolhido, int ano_curricular) {
 	int ano, mes, dia = 0;	
 	int data_valida = 1;
 	DATA* hoje = (DATA*)malloc(sizeof(DATA));
-	
-	hoje = data_actual(hoje);
 	do
 	{
+		
+		hoje = data_actual(hoje);
 		printf("Qual a data pretendida? O formato e dd mm aaaa\n");
+		ano, mes, dia = 0;
 		scanf("%d %d %d", &dia, &mes, &ano);
 		if (ano < hoje->ano) {
 			data_valida = 0;
@@ -321,6 +336,7 @@ DATA* validacao_data(DATA* datainserida, DATA* datainicio, DATA* datafim, FERIAD
 					datainserida->ano = ano; 
 					datainserida->mes = mes; 
 					datainserida->dia = dia;
+					
 					int dentro_datas =valida_data_dentro_epoca(datainserida,datainicio, datafim);
 					if (dentro_datas == 0 ){
 						data_valida = 0;
@@ -341,38 +357,88 @@ DATA* validacao_data(DATA* datainserida, DATA* datainicio, DATA* datafim, FERIAD
 							} 
 							else { 
 								//vamos verificar se existe algum exame do mesmo ano curricular ate 3 dias antes ou depois
-								numero_dias_entre_exames(exames_bv, datainserida);
+								datainserida->ano = ano; 
+								datainserida->mes = mes; 
+								datainserida->dia = dia;
+								int valida_dias = 0; 
+								valida_dias = numero_dias_entre_exames(exames_bv, datainserida, curso_escolhido, ano_curricular);
+
+								if (valida_dias == 0) {
+									printf("Tem um exame marcado com menos de 3 dias de intervalo.\n");
+									data_valida = 0;
+								}
+								else {
+									data_valida = 1;
+									datainserida->ano = ano; 
+									datainserida->mes = mes; 
+									datainserida->dia = dia;
+								}
+
 							}
 						}
-
-					}
-					 
-					data_valida = 1;					
+					}					
 				}
 			}
 		}
 		
 	} while (data_valida == 0);
 	
-	
 	free(hoje);
 	return datainserida;
 }
 
+int get_next_exameID(EXAMES* exames_bv) {
+	int i = 0; 
+	int max_codigo = 0;
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			if (exames_bv[i].codigo > max_codigo) {
+				max_codigo = exames_bv[i].codigo;
+			}
+		}
+	}
+	return max_codigo + 1;
+}
+
+int get_next_exames_posicao(EXAMES* exames_bv) {
+	int i = 0; 
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 0) {
+			return i; 
+		}
+	}
+}
+
+void insere_exame(EXAMES* exames_bv, int exameID, char* curso, char* epoca, char* data_Exame, char* horario, int duracao_exame, char* unidade_curricular, int nova_posicao) {
+	exames_bv[nova_posicao].ocupado = 1;
+	exames_bv[nova_posicao].realizado = 0;
+	exames_bv[nova_posicao].codigo = exameID;
+	exames_bv[nova_posicao].curso = curso; 
+	exames_bv[nova_posicao].epoca = epoca;
+	exames_bv[nova_posicao].data = data_Exame;
+	exames_bv[nova_posicao].hora = horario;
+	exames_bv[nova_posicao].duracao = duracao_exame; 
+	exames_bv[nova_posicao].unidade_curricular = unidade_curricular;
+	exames_bv[nova_posicao].sala = "";
+	exames_bv[nova_posicao].alunos_inscritos = 0;
+} 
+
 // funcao que cria novos exames 
 void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas, EPOCAS* epocas, CURSO* cursos, FERIADOS* feriados_datas) {
 	int opcaoepoca = -1;
+	int duracao_exame = 0; 
 	int opcaoUC = -1;
 	int posicaoCurso = 0;
 	int semestre = 0;
-	char* unidade_curricular =(char*)malloc(sizeof(char)*50);
+	char* unidade_curricular_escolhida;
 	char* curso;
-	char* datastr = (char*)malloc(sizeof(char) * 11);
 	char* epoca = (char*)malloc(sizeof(char)*10);
+	unidade_curricular_escolhida=(char*)malloc(sizeof(char)*50);
 	curso = (char*)malloc(sizeof(char)*10);
 	DATA* data_inicio_epoca = (DATA*)malloc(sizeof(DATA)); 
 	DATA* data_fim_epoca = (DATA*)malloc(sizeof(DATA)); 
-	DATA* data_introduzida = (DATA*)malloc(sizeof(DATA));
 
 	//nesta funcao vamos criar um novo exame
 	do
@@ -380,6 +446,7 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 		printf("\n*** SELECAO DE EPOCA ***\n");
 		lista_epocas(epocas);
 		printf("Indique o codigo da epoca\n"); 
+		opcaoepoca = 0;
 		scanf("%i", &opcaoepoca);
 		if ( valida_epoca(epocas, opcaoepoca) == -1) {
 			opcaoepoca = -1;
@@ -408,41 +475,85 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 		} while (valida_curso_escolhido( cursos, posicaoCurso) == 0);
 		
 		curso = cursos[posicaoCurso].codcurso;
-		printf("%d", semestre);
 		
 		// Vamos escolher a UC
 		do
 		{
 			listar_UC_curso_semestre(uc, curso, semestre);
 			printf("\nIndiqu o codigo da unidade curricular\n");
+			opcaoUC = -1;
 			scanf("%d", &opcaoUC);
 		} while (valida_UC_curso_semestre( uc,curso,semestre, opcaoUC) == -1);
 		
 		int posicaoUC = valida_UC_curso_semestre( uc,curso,semestre, opcaoUC);
-		
-		unidade_curricular = uc[posicaoUC].descricao;
-		printf("\nEscolheu a unidade curricular de %s\n" , unidade_curricular); 
+	
+		unidade_curricular_escolhida = uc[posicaoUC].descricao;
+		printf("\nEscolheu a unidade curricular de %s\n" , unidade_curricular_escolhida); 
 		
 		DATA* datainserida = (DATA*)malloc(sizeof(DATA));
 		//vamos pedir uma data ao utilizador e validamos se é valida em termos de estrutura 
-		validacao_data(datainserida, data_inicio_epoca, data_fim_epoca, feriados_datas, exames_bv);
+		int ano_curricular = uc[posicaoUC].ano;
+		datainserida = validacao_data(datainserida, data_inicio_epoca, data_fim_epoca, feriados_datas, exames_bv, curso, ano_curricular);
 
+		int horas, minutos = 0;
+		do
+		{
+			printf("Qual a hora de inicio do exame?\n");
+			 horas, minutos = 0;
+			scanf("%d %d", &horas, &minutos);
+			if (horas < 0 || horas > 23) {
+				printf("As horas apenas podem ser entre as 0 e as 23\n");
+				horas = 0; 
+			}
+			if (minutos < 0 || minutos > 59) {
+				printf("Os minutos vao de 0 a 59\n");
+				horas = 0; 
+			}
+		} while (horas == 0);
 		
 
+		//vamos pedir a duracao do exame ao utilizador
+		do
+		{
+			printf("Qual a duracao, em minutos, do exame?\n");
+			duracao_exame = 0;
+			scanf("%d", &duracao_exame);
+		} while (duracao_exame == 0);
 
-		
+	// vamos buscar o proximo espaco livre no array para inserir os dados 
+	int exameID = get_next_exameID(exames_bv);
+	int nova_posicao = get_next_exames_posicao(exames_bv); 
+
+	char* horario = (char*)malloc(sizeof(char) * 100);
+	
+	char* data_Exame = (char*)malloc(sizeof(char) * 100);	
+
+	struct tm timeinfo = { 0};
+	timeinfo.tm_year = datainserida->ano; 
+	timeinfo.tm_mon = datainserida->mes; 
+	timeinfo.tm_mday = datainserida->dia;
+	timeinfo.tm_hour = horas; 
+	timeinfo.tm_min = minutos; 
+
+	//obtemos as datas em formato string 
+	time_t rawtime = mktime(&timeinfo); 
+	strftime(data_Exame,12, "%d/%m/%Y", localtime(&rawtime));
+	strftime(horario,7, "%H:%M", localtime(&rawtime));
+
+	
+	insere_exame( exames_bv,  exameID,  curso,  epoca,  data_Exame,  horario, duracao_exame,  unidade_curricular_escolhida,  nova_posicao);
+	printf("Exame inserido com sucesso em memoria!\n");
 
 
 
-
-	// }
-
-
-	free(unidade_curricular);
+	free(unidade_curricular_escolhida);
 	free(data_inicio_epoca);
 	free(data_fim_epoca);
-	free(data_introduzida);
+	free(datainserida);
+	free(data_Exame); 
+	free(horario);
 }
+
 
 //funcao que valida se o exame que introduziu pode ser apagado 
 int valida_codigo_exame_apagar(EXAMES* exames_bv, int codigo_exame) { 
@@ -561,6 +672,9 @@ void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS*
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");
         printf("1. Listar Exames\n");
+		printf("2. Criar Exames\n");
+		printf("3. Editar Exames\n");
+		printf("4. Apagar Exames\n");
         printf("Escolha uma opcao\n"); 
         printf("Opcao:"); 
         scanf("%d", &opcaoExame); 

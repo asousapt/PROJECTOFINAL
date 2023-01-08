@@ -1,19 +1,19 @@
-1|Analise Matematica|EI|Normal|13/01/2023|09:00|120|S09, S14, A2|150
-2|Tecnologias dos Computadores|EI|Normal|16/01/2023|14:00|90|S14, A2, A3|50
-3|Sistemas Digitais|EI|Normal|18/01/2023|14:00|90|S14, A2, LI7, LM|50
-4|Algebra|EI|Normal|21/01/2023|14:00|90|S21, S22, S09, S14|150
-5|Algoritmos e Programacao|EI|Normal|25/01/2023|09:00|90|S09, A2, SD1|50
-6|Analise Matematica|EI|Recurso|09/02/2023|09:30|90|S09, S14, A2|100
-7|Tecnologias dos Computadores|EI|Recurso|13/02/2023|09:00|120|S09, A2, A3|20
-8|Sistemas Digitais|EI|Recurso|14/02/2023|14:00|120|S09, A2, LI7, LM|20
-9|Algebra|EI|Recurso|15/02/2023|09:00|120|S09, SD1, A2|100
-10|Algoritmos e Programacao|EI|Recurso|17/02/2023|14:00|120|S09, S14, A2|20
+1|Analise Matematica|EI|Normal|13|09:00|120|S09, S14, A2|150
+2|Tecnologias dos Computadores|EI|Normal|16|14:00|90|S14, A2, A3|50
+3|Sistemas Digitais|EI|Normal|18|14:00|90|S14, A2, LI7, LM|50
+4|Algebra|EI|Normal|21|14:00|90|S21, S22, S09, S14|150
+5|Algoritmos e Programacao|EI|Normal|25|09:00|90|S09, A2, SD1|50
+6|Analise Matematica|EI|Recurso|09|09:30|90|S09, S14, A2|100
+7|Tecnologias dos Computadores|EI|Recurso|13|09:00|120|S09, A2, A3|20
+8|Sistemas Digitais|EI|Recurso|14|14:00|120|S09, A2, LI7, LM|20
+9|Algebra|EI|Recurso|15|09:00|120|S09, SD1, A2|100
+10|Algoritmos e Programacao|EI|Recurso|17|14:00|120|S09, S14, A2|20
 11|Programacao Orientada aos Objectos|EI|Normal|04/01/2023|09:00|90|S09, S10|30
-12|Analise de Sistemas|EI|Normal|10/01/2023|09:30|120|S10, S12|30
-13|Sistemas Operativos|EI|Normal|13/01/2023|14:00|90|LI2, LI3|40
-14|Aplicacoes para a Internet I|EI|Normal|16/01/2023|14:00|120|S09, S12|30
-15|Usabilidade|EI|Normal|20/01/2023|14:00|120|S12, S15|30
-16|Programacao Orientada aos Objectos|EI|Recurso|12/02/2023|09:30|90|S15, S22|45
+12|Analise de Sistemas|EI|Normal|10|09:30|120|S10, S12|30
+13|Sistemas Operativos|EI|Normal|13|14:00|90|LI2, LI3|40
+14|Aplicacoes para a Internet I|EI|Normal|16|14:00|120|S09, S12|30
+15|Usabilidade|EI|Normal|20|14:00|120|S12, S15|30
+16|Programacao Orientada aos Objectos|EI|Recurso|12|09:30|90|S15, S22|45
 17|Analise de Sistemas|EI|Recurso|14/02/2022|14:00|90|S17, S21|40
 18|Sistemas Operativos|EI|Recurso|15/02/2022|09:30|120|S22, S23|35
 19|Aplicacoes para a Internet I|EI|Recurso|15/02/2022|14:00|90|LI6, LI4|30
@@ -21,4 +21,4 @@
 21|Seguranca Informatica|EI|Normal|02/01/2023|09:30|120|S12, S13|30
 22|Redes de Comunicacao III|EI|Normal|03/01/2023|14:00|120|S13, S14|50
 23|Complementos de Sistemos Operativos|EI|Normal|04/01/2023|09:30|120|A1, A2|50
-24|Bases de Dados II|EI|Normal|06/01/2023|14:00|120|A1, A2, A3|100
+24|Bases de Dados II|EI|Normal|13|14:00|120|A1, A2, A3|100

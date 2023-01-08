@@ -22,7 +22,7 @@
 22|Projeto Integrado|Gabriel Pereira|2|2|EI
 23|Seguranca Informatica|António Miguel|3|1|EI
 24|Redes de Comunicacao III|Joao Batista|3|1|EI
-25|Complementos de Sistemos Operativos|Luis Filipe|3|1|EI
+25|Complementos de Sistemas Operativos|Luis Filipe|3|1|EI
 26|Bases de Dados II|Otavio Sousa|3|1|EI
 27|Sistemas Embebidos|Joana Lopes|3|1|EI
 28|Sistemas Distribuidos|Ines Lopes|3|1|EI

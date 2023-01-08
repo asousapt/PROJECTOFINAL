@@ -472,7 +472,7 @@ void export_UC(UNIDADECURRICULAR* uc){
 	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
 	{
 		if (uc[i].ocupado == 1) {
-			fprintf(f, "%d|%s|%s|%d|%d|%s", uc[i].codigo,uc[i].descricao,uc[i].docente, uc[i].ano,uc[i].semestre,uc[i].curso);
+			fprintf(f, "%d|%s|%s|%d|%d|%s\n", uc[i].codigo,uc[i].descricao,uc[i].docente, uc[i].ano,uc[i].semestre,uc[i].curso);
 		}
 	}
 	
