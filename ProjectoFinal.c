@@ -10,6 +10,7 @@
 #include "salas.c"
 #include "alunos.c"
 #include "epocas.c"
+#include "exames_salas.c"
 
 
 #define MAX_EXAMES_FILE 100
@@ -22,6 +23,7 @@
 #define MAX_REGIMES 5
 #define MAX_EPOCAS 10
 #define MAX_INSCRICOES 3000
+#define MAX_EXAMES_SALAS 100
 
 //Função Principal do programa
 void main(int argc, char** argv) {
@@ -65,7 +67,8 @@ void main(int argc, char** argv) {
     SALAS* salas = (SALAS*)malloc(MAX_SALAS * sizeof(SALAS));
     import_txt_salas(salas, V);
 
-   
+    EXAMESSALAS* exames_salas = (EXAMESSALAS*)malloc(MAX_EXAMES_SALAS * sizeof(EXAMESSALAS));
+    import_txt_exames_salas(exames_salas, V);
 
     /* Termina o carregamento de variaveis em memoria */
     while (1) {
@@ -90,7 +93,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'C': // menu de exames
-            menu_exames(exames, inscricoes_exames, alunos, salas, epocas, uc, cursos, feriado);
+            menu_exames(exames, inscricoes_exames, alunos, salas, epocas, uc, cursos, feriado,exames_salas);
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);
@@ -101,7 +104,7 @@ void main(int argc, char** argv) {
             export_UC(uc);
             export_feriados(feriado);
             export_alunos(alunos);
-            
+            export_exames_salas( exames_salas);
             break;
         }
     }
@@ -115,4 +118,5 @@ void main(int argc, char** argv) {
     free(alunos);
     free(salas);
     free(epocas);
+    free(exames_salas);
 }

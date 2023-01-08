@@ -32,7 +32,7 @@ void import_txt_salas(SALAS* salas, STRING* V) {
 
 		
 			salas[i].codigo = (char*)malloc(sizeof(char) * (strlen(V[0]) + 1));
-			strcpy(salas[i].codigo, V[0]);
+			strcpy(salas[i].codigo, trim(V[0]));
 
 			salas[i].nome_sala = (char*)malloc(sizeof(char) * (strlen(V[1]) + 5));
 			strcpy(salas[i].nome_sala, V[1]);

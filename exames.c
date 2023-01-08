@@ -435,7 +435,6 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 	char* unidade_curricular_escolhida;
 	char* curso;
 	char* epoca = (char*)malloc(sizeof(char)*10);
-	unidade_curricular_escolhida=(char*)malloc(sizeof(char)*50);
 	curso = (char*)malloc(sizeof(char)*10);
 	DATA* data_inicio_epoca = (DATA*)malloc(sizeof(DATA)); 
 	DATA* data_fim_epoca = (DATA*)malloc(sizeof(DATA)); 
@@ -486,7 +485,7 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 		} while (valida_UC_curso_semestre( uc,curso,semestre, opcaoUC) == -1);
 		
 		int posicaoUC = valida_UC_curso_semestre( uc,curso,semestre, opcaoUC);
-	
+		unidade_curricular_escolhida=(char*)malloc(strlen(uc[posicaoUC].descricao)*sizeof(char*)+1);
 		unidade_curricular_escolhida = uc[posicaoUC].descricao;
 		printf("\nEscolheu a unidade curricular de %s\n" , unidade_curricular_escolhida); 
 		
@@ -539,11 +538,9 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 	time_t rawtime = mktime(&timeinfo); 
 	strftime(data_Exame,12, "%d/%m/%Y", localtime(&rawtime));
 	strftime(horario,7, "%H:%M", localtime(&rawtime));
-
 	
 	insere_exame( exames_bv,  exameID,  curso,  epoca,  data_Exame,  horario, duracao_exame,  unidade_curricular_escolhida,  nova_posicao);
 	printf("Exame inserido com sucesso em memoria!\n");
-
 
 
 	free(unidade_curricular_escolhida);
@@ -667,14 +664,16 @@ void listar_exames(EXAMES* exames_bv, int jarealizados){
 	printf("\n");
 }
 
-void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas, EPOCAS* epocas, UNIDADECURRICULAR* uc, CURSO* cursos, FERIADOS* feriados_datas) {
+void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas, EPOCAS* epocas, UNIDADECURRICULAR* uc, CURSO* cursos, FERIADOS* feriados_datas, EXAMESSALAS* exames_salas) {
     int opcaoExame = -1; 
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");
         printf("1. Listar Exames\n");
 		printf("2. Criar Exames\n");
 		printf("3. Editar Exames\n");
-		printf("4. Apagar Exames\n");
+		printf("4. Consultar Salas de Exame\n");
+		printf("5. Atribuir sala a Exame\n");
+		printf("6. Apagar Exames\n");
         printf("Escolha uma opcao\n"); 
         printf("Opcao:"); 
         scanf("%d", &opcaoExame); 
@@ -688,7 +687,13 @@ void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS*
 			break;
 		case 3: // editar Exame 
 			break;
-		case 4: //Apagar exame 
+			case 4: 
+			consulta_Salas_exame( exames_bv,  exames_salas, salas);
+			break;
+		case 5: 
+			 atribuir_salas( exames_bv,  salas, exames_salas);
+			break;
+		case 6: //Apagar exame 
 			apagar_exame(exames_bv);
 			break;
         case 0:

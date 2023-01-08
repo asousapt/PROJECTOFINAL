@@ -21,4 +21,4 @@
 21|Seguranca Informatica|EI|Normal|02/01/2023|09:30|120|S12, S13|30
 22|Redes de Comunicacao III|EI|Normal|03/01/2023|14:00|120|S13, S14|50
 23|Complementos de Sistemos Operativos|EI|Normal|04/01/2023|09:30|120|A1, A2|50
-24|Bases de Dados II|EI|Normal|13|14:00|120|A1, A2, A3|100
+24|Bases de Dados II|EI|Normal|13/01/2023|14:00|120|A1, A2, A3|100
