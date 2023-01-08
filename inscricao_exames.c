@@ -87,14 +87,22 @@ int valida_aluno_inscrito(INSCRICOESEXAMES* inscricoes_exames, int opcaoAluno) {
 
 //lista as inscricoes por aluno
 void lista_inscricoes_aluno(INSCRICOESEXAMES* inscricoes_exames){
-  int opcaoAluno = 0;
-  int n[MAX_INSCRICOES];
   
-  printf("Insira o numero do aluno: ");
-  scanf("%i", &opcaoAluno);
+ int i;
+ int opcaoAluno = 0;
 
-  if(valida_aluno_inscrito(inscricoes_exames, opcaoAluno) == 1){
-    printf("Teste");
+ printf("Insira o numero do aluno: ");
+ scanf("%d", &opcaoAluno);
+
+ if(valida_aluno_inscrito(inscricoes_exames, opcaoAluno)==1){
+	printf("%s %s %s %s %s\n", "ID", "Unidade Curricular","Numero Aluno", "Ano Matricula", "Epoca", "Regime\n");
+	for (i = 0; i < MAX_INSCRICOES; i++)
+	{
+		if (inscricoes_exames[i].numero_aluno == opcaoAluno) {
+			printf("%d %s %d %d %s %s\n",inscricoes_exames[i].codigo, inscricoes_exames[i].unidade_curricular, inscricoes_exames[i].numero_aluno, 
+      inscricoes_exames[i].ano_matricula, inscricoes_exames[i].epoca, inscricoes_exames[i].regime);
+		}
+	}
   }
 }
 
