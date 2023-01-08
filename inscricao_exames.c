@@ -1,155 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <functions.h>
+#define MAX_ALUNOS 50
 
-#define MAX_IES 100
-
-typedef struct {
-  char ID[5];
-  char disciplina[50];
-  char codigo[10];
-  char ano[5];
-  char periodo[5];
-} IE;
-
-IE ies[MAX_IES];
-int num_ies = 0;
-
-// Função para criar uma nova IE
-void create_ie(IE ie) {
-  if (num_ies == MAX_IES) {
-    printf("Não é possível adicionar mais IEs, pois o limite máximo foi atingido.\n");
-    return;
-  }
-  ies[num_ies] = ie;
-  num_ies++;
+// Vincula um vetor de alunos a um exame
+void vincular_alunos_exame(char *alunos_ID[], int num_alunos, char *exame_ID, EXAMES *exames, int num_exames) {
+// Procure o exame pelo ID
+for (int i = 0; i < num_exames; i++) {
+if (strcmp(exames[i].codigo, exame_ID) == 0) {
+// Verifique se o exame já possui o máximo de alunos permitidos
+if (exames[i].num_alunos + num_alunos > MAX_ALUNOS) {
+printf("Não é possível vincular mais alunos ao exame, pois o limite máximo de alunos foi atingido.\n");
+return;
 }
-
-// Função para ler todas as IEs do arquivo "inscricoes_exames.txt"
-void read_ies_from_file() {
-  char line[150];
-  char *token;
-  FILE *file = fopen("inscricoes_exames.txt", "r");
-  if (file == NULL) {
-    printf("Erro ao abrir o arquivo inscricoes_exames.txt\n");
-    return;
-  }
-  while (fgets(line, 150, file) != NULL) {
-    IE ie;
-    token = strtok(line, "|");
-    strcpy(ie.ID, token);
-    token = strtok(NULL, "|");
-    strcpy(ie.disciplina, token);
-    token = strtok(NULL, "|");
-    strcpy(ie.codigo, token);
-    token = strtok(NULL, "|");
-    strcpy(ie.ano, token);
-    token = strtok(NULL, "|");
-    strcpy(ie.periodo, token);
-    create_ie(ie);
-  }
-  fclose(file);
+// Adicione os alunos ao vetor de alunos do exame
+for (int j = 0; j < num_alunos; j++) {
+strcpy(exames[i].alunos_inscritos[exames[i].num_alunos], alunos_ID[j]);
+exames[i].num_alunos++;
 }
-
-// Função para atualizar uma IE existente
-void update_ie(char *ID, IE nova_IE) {
-  for (int i = 0; i < num_ies; i++) {
-    if (strcmp(ies[i].ID, ID) == 0) {
-      ies[i] = nova_IE;
-      return;
-    }
-  }
-  printf("Não foi encontrada nenhuma IE com o ID especificado.\n");
-}
-
-// Função para excluir uma IE
-void delete_ie(char *ID) {
-  for (int i = 0; i < num_ies; i++) {
-    if (strcmp(ies[i].ID, ID) == 0) {
-      for (int j = i; j < num_ies - 1; j++) {
-        ies[j] = ies[j+1];
-      }
-      num_ies--;
-      printf("IE excluída com sucesso.\n");
-      return;
-    }
-  }
-  printf("Não foi encontrada nenhuma IE com o ID especificado.\n");
-}
-
-// Função para ler uma IE pelo ID
-void read_ie(char *ID) {
-for (int i = 0; i < num_ies; i++) {
-if (strcmp(ies[i].ID, ID) == 0) {
-printf("ID: %s\n", ies[i].ID);
-printf("Disciplina: %s\n", ies[i].disciplina);
-printf("Código: %s\n", ies[i].codigo);
-printf("Ano: %s\n", ies[i].ano);
-printf("Período: %s\n", ies[i].periodo);
+printf("Alunos vinculados ao exame com sucesso.\n");
 return;
 }
 }
-printf("Não foi encontrada nenhuma IE com o ID especificado.\n");
+printf("Não foi encontrado nenhum exame com o ID especificado.\n");
 }
 
-//funcao principal do programa Inscrição_exames.c
-void menu_IE(){
-    int escolha;
-    ler_alunos();//carrega ficheiro inscricao_exames.txt
-    //Boas vindas ao usuario
-    printf("\n===== Bem vindo ao sistema de Inscrição de Exames do Polietecnico de Viseu: =====\n");
-    //Criando loop de menu para o usuario
-    while (1){
-        // apresentando opcoes
-        printf("\nSelecione sua opção:\n[1] Criar Exame:\n[2] Buscar Exame:\n[3] Atualizar Exames do ficheiro:\n[4] Deletar Exames:\n[5] Sair\n");
-        scanf("%d", &escolha);
-        switch (escolha)
-        {
-        case 1://Criar nova IE
-            IE nova_IE;
-            printf("Insira os dados da nova inscrição em exame:\n");
-            printf("ID: ");
-            scanf("%s", nova_IE.ID);
-            printf("Disciplina: ");
-            scanf("%s", nova_IE.disciplina);
-            printf("Código: ");
-            scanf("%s", nova_IE.codigo);
-            printf("Ano: ");
-            scanf("%s", nova_IE.ano);
-            printf("Período: ");
-            scanf("%s", nova_IE.periodo);
-            create_ie(nova_IE);
-            break;
-        case 2://Buscar IE existente
-            char ID[5];
-            printf("Insira o ID da inscrição em exame a ser lida: ");
-            scanf("%s", ID);
-            read_ie(ID);
-            break;
-        case 3:
-            IE Temp_IE;
-            printf("Insira o ID da inscrição em exame a ser atualizada: ");
-            scanf("%s", ID);
-            printf("Insira os novos dados da inscrição em exame:\n");
-            printf("ID: ");
-            scanf("%s", Temp_IE.ID);
-            printf("Disciplina: ");
-            scanf("%s", Temp_IE.disciplina);
-            printf("Código: ");
-            scanf("%s", Temp_IE.codigo);
-            printf("Ano: ");
-            scanf("%s", Temp_IE.ano);
-            printf("Período: ");
-            scanf("%s", Temp_IE.periodo);
-            update_ie(ID, Temp_IE);
-            break;    
-        case 4:
-            printf("Insira o ID da inscrição em exame a ser excluída: ");
-            scanf("%s", ID);
-            delete_ie(ID);
-            break;
-        case 5: 
-            exit(0);
+void desvincular_alunos_exame(char *alunos_ID[], int num_alunos, char *exame_ID, EXAMES *exames, int num_exames) {
+  for (int i = 0; i < num_exames; i++) {
+    if (strcmp(exames[i].codigo, exame_ID) == 0) {
+      for (int j = 0; j < num_alunos; j++) {
+        for (int k = 0; k < exames[i].num_alunos; k++) {
+          if (strcmp(exames[i].alunos_inscritos[k], alunos_ID[j]) == 0) {
+            // Remove o aluno do vetor de alunos do exame
+            for (int l = k; l < exames[i].num_alunos - 1; l++) {
+              exames[i].alunos_inscritos[l] = exames[i].alunos_inscritos[l+1];
+            }
+          exames[i].num_alunos--;
+          }
         }
+      }
+    return;
     }
+  }
+  printf("Não foi encontrado nenhum exame com o ID especificado.\n");
 }
