@@ -5,7 +5,7 @@
 #define MAX_IES 100
 
 typedef struct {
-  char ID[10];
+  char ID[5];
   char disciplina[50];
   char codigo[10];
   char ano[5];
@@ -52,10 +52,10 @@ void read_ies_from_file() {
 }
 
 // Função para atualizar uma IE existente
-void update_ie(char *ID, IE new_ie) {
+void update_ie(char *ID, IE nova_IE) {
   for (int i = 0; i < num_ies; i++) {
     if (strcmp(ies[i].ID, ID) == 0) {
-      ies[i] = new_ie;
+      ies[i] = nova_IE;
       return;
     }
   }
@@ -92,9 +92,64 @@ return;
 printf("Não foi encontrada nenhuma IE com o ID especificado.\n");
 }
 
-int main() {
-read_ies_from_file();
-
-// Código para testar as funções aqui
-return 0;
+//funcao principal do programa Inscrição_exames.c
+void menu_IE(){
+    int escolha;
+    ler_alunos();//carrega ficheiro inscricao_exames.txt
+    //Boas vindas ao usuario
+    printf("\n===== Bem vindo ao sistema de Inscrição de Exames do Polietecnico de Viseu: =====\n");
+    //Criando loop de menu para o usuario
+    while (1){
+        // apresentando opcoes
+        printf("\nSelecione sua opção:\n[1] Criar Exame:\n[2] Buscar Exame:\n[3] Atualizar Exames do ficheiro:\n[4] Deletar Exames:\n[5] Sair\n");
+        scanf("%d", &escolha);
+        switch (escolha)
+        {
+        case 1://Criar nova IE
+            IE nova_IE;
+            printf("Insira os dados da nova inscrição em exame:\n");
+            printf("ID: ");
+            scanf("%s", nova_IE.ID);
+            printf("Disciplina: ");
+            scanf("%s", nova_IE.disciplina);
+            printf("Código: ");
+            scanf("%s", nova_IE.codigo);
+            printf("Ano: ");
+            scanf("%s", nova_IE.ano);
+            printf("Período: ");
+            scanf("%s", nova_IE.periodo);
+            create_ie(nova_IE);
+            break;
+        case 2://Buscar IE existente
+            char ID[5];
+            printf("Insira o ID da inscrição em exame a ser lida: ");
+            scanf("%s", ID);
+            read_ie(ID);
+            break;
+        case 3:
+            IE Temp_IE;
+            printf("Insira o ID da inscrição em exame a ser atualizada: ");
+            scanf("%s", ID);
+            printf("Insira os novos dados da inscrição em exame:\n");
+            printf("ID: ");
+            scanf("%s", Temp_IE.ID);
+            printf("Disciplina: ");
+            scanf("%s", Temp_IE.disciplina);
+            printf("Código: ");
+            scanf("%s", Temp_IE.codigo);
+            printf("Ano: ");
+            scanf("%s", Temp_IE.ano);
+            printf("Período: ");
+            scanf("%s", Temp_IE.periodo);
+            update_ie(ID, Temp_IE);
+            break;    
+        case 4:
+            printf("Insira o ID da inscrição em exame a ser excluída: ");
+            scanf("%s", ID);
+            delete_ie(ID);
+            break;
+        case 5: 
+            exit(0);
+        }
+    }
 }
