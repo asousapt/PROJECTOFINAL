@@ -5,7 +5,9 @@
 #include<time.h>
 #include <string.h>
 #include<ctype.h>
-#include "functions.h"
+#include"functions.h"
+#include <math.h>
+#include <limits.h>
 
 #define MAX_CAR 300
 #define STRING char *
@@ -14,6 +16,7 @@
 #define MAX_EXAMES_FILE 100
 #define MAX_UNIDADES_CURRICULARES 100
 #define MAX_EPOCAS 10
+#define MAX_FERIADOS 20 
 
 char *trim(char *str)
 {
@@ -228,12 +231,77 @@ int valida_epoca(EPOCAS* epocas, int opcao) {
 	
 	return -1; 
 }
+int valida_data_dentro_epoca(DATA* datainsrida, DATA* datainicio, DATA* datafim) {
+	if (datainsrida->ano == datainicio->ano || datainsrida->ano == datafim->ano) {
+		if (datainsrida->mes == datainicio->mes || datainsrida->mes == datainicio->mes) {
+			if (datainsrida->dia >= datainicio->dia && datainsrida->dia <= datafim->dia) {
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
 
-int validacao_data() {
+//valida se e fereiado 
+
+int e_feriado(DATA* datainserida, FERIADOS* feriados_datas) {
+	int i = 0; 
+	for ( i = 0; i <  MAX_FERIADOS ; i++)
+	{
+		if (feriados_datas[i].dia > 0 ) {
+			DATA* dia_feriado = (DATA*)malloc(sizeof(DATA));
+			dia_feriado->ano = datainserida->ano; 
+			dia_feriado->mes = feriados_datas[i].mes; 
+			dia_feriado->dia = feriados_datas[i].dia;
+
+			//vamos comparar as datas 
+			if (datainserida->ano == dia_feriado->ano && datainserida->mes == dia_feriado->mes && datainserida->dia == dia_feriado->dia) {
+				return 1;
+			}
+
+		free(dia_feriado);
+		}
+	}
+	return 0;
+}
+
+int numero_dias_entre_exames(EXAMES* exames_bv, DATA* datainserida) {
+	int i = 0; 
+	for ( i = 0; i < MAX_EXAMES_FILE; i++)
+	{
+		if (exames_bv[i].ocupado == 1) {
+			struct tm tm1 = { 0 };
+    		struct tm tm2 = { 0 };
+			DATA* data_exame = (DATA*)malloc(sizeof(DATA));
+			coloca_data_em_struct(exames_bv[i].data, data_exame);
+
+			tm1.tm_year = datainserida->ano;
+			tm1.tm_mon = datainserida->mes;
+			tm1.tm_mday = datainserida->dia;
+
+			tm2.tm_year = data_exame->ano;
+			tm2.tm_mon = data_exame->mes;
+			tm2.tm_mday = data_exame->dia;
+
+			time_t t1 = mktime(&tm1);
+    		time_t t2 = mktime(&tm2);
+
+    		double dt = difftime(t1, t2);
+    		int days = round(dt / 86400);
+
+			printf("%s %dn",exames_bv[i].data, days);
+
+			free(data_exame);
+		}
+	}
+	return 0;
+}
+
+DATA* validacao_data(DATA* datainserida, DATA* datainicio, DATA* datafim, FERIADOS* feriado, EXAMES* exames_bv) {
 	int ano, mes, dia = 0;	
 	int data_valida = 1;
 	DATA* hoje = (DATA*)malloc(sizeof(DATA));
-	DATA* datainserida = (DATA*)malloc(sizeof(DATA));
+	
 	hoje = data_actual(hoje);
 	do
 	{
@@ -249,11 +317,37 @@ int validacao_data() {
 					data_valida = 0;
 				}
 				else {
+					// vamos verificar se a data esta dentro da epoca escolhida 
 					datainserida->ano = ano; 
 					datainserida->mes = mes; 
-					datainserida->dia = dia; 
+					datainserida->dia = dia;
+					int dentro_datas =valida_data_dentro_epoca(datainserida,datainicio, datafim);
+					if (dentro_datas == 0 ){
+						data_valida = 0;
+						printf("A data inserida esta fora do intervalo de dados da epoca\n"); 
+					} else {
+						//valida se e feriado
+						int data_de_feriado = e_feriado( datainserida, feriado); 
+						if (data_de_feriado == 1) {
+							printf("A data introduzida e um feriado\n");
+							data_valida = 0;
+						}
+						else {
+							// vamos validar se e fim de semana 
+							int weekday  = (datainserida->dia += datainserida->mes < 3 ? datainserida->ano-- : datainserida->ano - 2, 23*datainserida->mes/9 + datainserida->dia + 4 + datainserida->ano/4- datainserida->ano/100 + datainserida->ano/400)%7; 
+							if (weekday == 0 || weekday == 6) {
+								printf("Nao e permitido marcar exames ao fim de semana\n");
+								data_valida = 0;
+							} 
+							else { 
+								//vamos verificar se existe algum exame do mesmo ano curricular ate 3 dias antes ou depois
+								numero_dias_entre_exames(exames_bv, datainserida);
+							}
+						}
 
-					data_valida = exame_ja_realizado(hoje, datainserida);
+					}
+					 
+					data_valida = 1;					
 				}
 			}
 		}
@@ -261,13 +355,12 @@ int validacao_data() {
 	} while (data_valida == 0);
 	
 	
-	free(datainserida);
 	free(hoje);
-	return 1;
+	return datainserida;
 }
 
 // funcao que cria novos exames 
-void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas, EPOCAS* epocas, CURSO* cursos) {
+void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS* salas, EPOCAS* epocas, CURSO* cursos, FERIADOS* feriados_datas) {
 	int opcaoepoca = -1;
 	int opcaoUC = -1;
 	int posicaoCurso = 0;
@@ -297,7 +390,7 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 	
 	//coloca as datas de inicio e fim da epoca numa struct
 	coloca_data_em_struct(epocas[opcaoepoca].dataInicio, data_inicio_epoca);
-	coloca_data_em_struct(epocas[opcaoepoca].dataFim, data_inicio_epoca);
+	coloca_data_em_struct(epocas[opcaoepoca].dataFim, data_fim_epoca);
 	semestre = epocas[opcaoepoca].semestre;
 	epoca = epocas[opcaoepoca].epoca;
 
@@ -329,10 +422,15 @@ void criar_Exame(EXAMES* exames_bv, ALUNOS* aluno, UNIDADECURRICULAR* uc, SALAS*
 		
 		unidade_curricular = uc[posicaoUC].descricao;
 		printf("\nEscolheu a unidade curricular de %s\n" , unidade_curricular); 
-		do
-		{
-			validacao_data();
-		} while (validacao_data() == 0);
+		
+		DATA* datainserida = (DATA*)malloc(sizeof(DATA));
+		//vamos pedir uma data ao utilizador e validamos se é valida em termos de estrutura 
+		validacao_data(datainserida, data_inicio_epoca, data_fim_epoca, feriados_datas, exames_bv);
+
+		
+
+
+		
 
 
 
@@ -458,7 +556,7 @@ void listar_exames(EXAMES* exames_bv, int jarealizados){
 	printf("\n");
 }
 
-void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas, EPOCAS* epocas, UNIDADECURRICULAR* uc, CURSO* cursos) {
+void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS* alunos, SALAS* salas, EPOCAS* epocas, UNIDADECURRICULAR* uc, CURSO* cursos, FERIADOS* feriados_datas) {
     int opcaoExame = -1; 
     while(opcaoExame != 0) {
         printf("Bem-vindo ao menu de Exames\n");
@@ -472,7 +570,7 @@ void menu_exames(EXAMES* exames_bv, INSCRICOESEXAMES* inscricoes_exames, ALUNOS*
            listar_exames(exames_bv, 0);
             break;
 		case 2: // Adicionar novo exame
-			criar_Exame(exames_bv, alunos, uc,  salas,  epocas, cursos);
+			criar_Exame(exames_bv, alunos, uc,  salas,  epocas, cursos, feriados_datas);
 			break;
 		case 3: // editar Exame 
 			break;

@@ -90,7 +90,7 @@ void main(int argc, char** argv) {
             break;
 
         case 'C': // menu de exames
-            menu_exames(exames, inscricoes_exames, alunos, salas, epocas, uc, cursos);
+            menu_exames(exames, inscricoes_exames, alunos, salas, epocas, uc, cursos, feriado);
             break;
         case 'D': // menu salas
             menu_salas(salas, exames);
