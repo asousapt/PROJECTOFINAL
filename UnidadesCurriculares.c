@@ -77,7 +77,7 @@ void import_txt_uc(UNIDADECURRICULAR* uc, STRING* V) { //, STRING* V
 	int i = 0, k, n_campos_lidos; 
 
 	//Abre o ficheiro
-	FILE* f = fopen("Ficheiros_bv/unidades_curriculares_bv.txt", "r");
+	FILE* f = fopen("unidades_curriculares_bv.txt", "r");
 	if (f == NULL) {
 		printf("Erro ao abrir ficheiro unidades_curriculares_bv.txt\n");
 		exit(1);
@@ -94,13 +94,14 @@ void import_txt_uc(UNIDADECURRICULAR* uc, STRING* V) { //, STRING* V
 			
 			uc[i].docente = (char*)malloc(sizeof(char) * (strlen(V[2]) + 1));
 			strcpy(uc[i].docente, V[2]);
+
+			uc[i].curso = (char*)malloc(sizeof(char) * (strlen(V[3]) + 1));
+			strcpy(uc[i].curso, trim(V[3]));
 			
-			uc[i].ano = atoi(V[3]);
+			uc[i].ano = atoi(V[4]);
 
-			uc[i].semestre = atoi(V[4]);
+			uc[i].semestre = atoi(V[5]);
 
-			uc[i].curso = (char*)malloc(sizeof(char) * (strlen(V[5]) + 1));
-			strcpy(uc[i].curso, trim(V[5]));
 
 			uc[i].ocupado = 1;
 
@@ -370,10 +371,10 @@ void apagar_uc(UNIDADECURRICULAR* uc, EXAMES* exames_bv){
 		uc[IDUC].ocupado = 0;
 		uc[IDUC].codigo = 0;
 		uc[IDUC].descricao = "";
+		uc[IDUC].curso = "";
 		uc[IDUC].ano = 0;
 		uc[IDUC].semestre = 0;
 		uc[IDUC].docente = "";
-		uc[IDUC].curso = "";
 		printf("Registo eliminado com sucesso!\n\n");
 	}
 }
@@ -463,16 +464,16 @@ void export_UC(UNIDADECURRICULAR* uc){
 	FILE *f;
 	
 	
-	f = fopen("unidades_curriculares.txt","w");
+	f = fopen("unidades_curriculares_bv.txt","w");
 	if (f == NULL){
-		printf("Erro ao abrir o ficheiro -> unidades_curriculares.txt");
+		printf("Erro ao abrir o ficheiro -> unidades_curriculares_bv.txt");
 		exit(1);
 	}
 	
 	for ( i = 0; i < MAX_UNIDADES_CURRICULARES; i++)
 	{
 		if (uc[i].ocupado == 1) {
-			fprintf(f, "%d|%s|%s|%d|%d|%s\n", uc[i].codigo,uc[i].descricao,uc[i].docente, uc[i].ano,uc[i].semestre,uc[i].curso);
+			fprintf(f, "%d|%s|%s|%s|%d|%d\n", uc[i].codigo,uc[i].descricao,uc[i].docente, uc[i].curso, uc[i].ano, uc[i].semestre);
 		}
 	}
 	
