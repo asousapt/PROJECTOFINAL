@@ -95,7 +95,7 @@ void lista_inscricoes_aluno(INSCRICOESEXAMES* inscricoes_exames){
  scanf("%d", &opcaoAluno);
 
  if(valida_aluno_inscrito(inscricoes_exames, opcaoAluno)==1){
-	printf("%s %s %s %s %s\n", "ID", "Unidade Curricular","Numero Aluno", "Ano Matricula", "Epoca", "Regime\n");
+	printf("%s %s %s %s %s %s\n", "ID", "Unidade Curricular","Numero Aluno", "Ano Matricula", "Epoca", "Regime\n");
 	for (i = 0; i < MAX_INSCRICOES; i++)
 	{
 		if (inscricoes_exames[i].numero_aluno == opcaoAluno) {
@@ -134,6 +134,28 @@ int valida_epoca_especial(int ano_matricula, int opcaoREgime, REGIMES* regimes){
     return 0;
 }
 
+int get_espaco_vazio(INSCRICOESEXAMES* inscricoes_exames) { 
+	int i= 0; 
+	for ( i = 0; i < MAX_INSCRICOES; i++)
+	{
+		if (inscricoes_exames[i].ocupado == 0) {
+			return i;
+		}
+	}
+	
+}
+
+char* regime_aluno (ALUNOS* alunos, int numero ) {
+	int i =0; 
+	for ( i = 0; i < MAX_ALUNOS; i++)
+	{
+		if (alunos[i].numero == numero) {
+			return alunos[i].regime;
+		} 
+	}
+	
+}
+
 void inscrever_aluno(INSCRICOESEXAMES* inscricoes_exames, EXAMES* exames, ALUNOS* alunos, REGIMES* regimes){
   int opcao_uc;
   int opcaoAluno = 0;
@@ -141,12 +163,15 @@ void inscrever_aluno(INSCRICOESEXAMES* inscricoes_exames, EXAMES* exames, ALUNOS
   char* epoca;
   int opcaoRegime;
   int ocupado;
+  int exameID;
+  char* regime;
 
   do{
     printf("Qual o numero do aluno");
     scanf("%d", &opcaoAluno);
-  } while (valida_aluno_existe(alunos, opcaoAluno) == 1);
+  } while (valida_aluno_existe(alunos, opcaoAluno) == 0);
 
+	regime = regime_aluno(alunos, opcaoAluno);
   do {
     printf("Qual o ano de matricula do aluno");
     scanf("%d", &ano_matricula);
@@ -170,6 +195,39 @@ void inscrever_aluno(INSCRICOESEXAMES* inscricoes_exames, EXAMES* exames, ALUNOS
     scanf("%d", &opcao_uc);
   }while (valida_uc_escolhida(exames, opcao_uc) == 1);
 
+	int posicao = get_espaco_vazio(inscricoes_exames);
+
+	inscricoes_exames[posicao].codigo = opcao_uc;
+	inscricoes_exames[posicao].epoca = epoca;
+	inscricoes_exames[posicao].ano_matricula = ano_matricula;
+	inscricoes_exames[posicao].regime = regime;
+	inscricoes_exames[posicao].numero_aluno = opcaoAluno;
+	inscricoes_exames[posicao].ocupado = 1;
+	printf("Aluno inscrito com sucesso!\n");
+}
+
+void export_inscricoes(INSCRICOESEXAMES* inscricoes_exames) {
+	int i, k = 0;
+	FILE *f;
+	
+	
+	f = fopen("inscricoes_exames.txt","w");
+	if (f == NULL){
+		printf("Erro ao abrir o ficheiro -> inscricoes_exames.txt");
+		exit(1);
+	}
+	
+	for ( i = 0; i < MAX_INSCRICOES; i++)
+	{
+		if (inscricoes_exames[i].ocupado == 1) {
+			fprintf(f, "%d|%s|%d|%d|%s\n", inscricoes_exames[i].codigo,
+			inscricoes_exames[i].unidade_curricular, 
+			inscricoes_exames[i].numero_aluno, 
+			inscricoes_exames[i].ano_matricula,
+			inscricoes_exames[i].epoca);
+	}}
+	
+	fclose(f);
 }
 
 void menu_inscricao_exames(INSCRICOESEXAMES* inscricoes_exames, EXAMES* exames, ALUNOS* alunos, REGIMES* regimes){

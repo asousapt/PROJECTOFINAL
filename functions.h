@@ -175,6 +175,6 @@ int exame_ja_realizado(DATA* data_actual, DATA* data_exame);
 void lista_epocas(EPOCAS* epocas);
 void listar_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre);
 int valida_UC_curso_semestre(UNIDADECURRICULAR* uc, char* curso, int semestre, int opcao);
-
+void export_inscricoes(INSCRICOESEXAMES* inscricoes_exames);
 
 #endif 
