@@ -1,0 +1,30 @@
+1|Algoritmos e Programacao|EI|0|1|1
+2|Sistemas Digitais|EI|0|1|1
+3|Tecnologias dos Computadores|EI|0|1|1
+4|Algebra|Maria Sousa|0|1|1
+5|Analise Matematica|EI|0|1|1
+6|Unidade Letiva Base|EI|0|1|1
+7|Arquitecturas de Computador|EI|0|1|2
+8|Matematica Discreta|EI|0|1|2
+9|Matematica Aplicada|EI|0|1|2
+10|Redes de Comunicacao I|EI|0|1|2
+11|Estruturas de Dados|EI|0|1|2
+12|Programacao Orientada aos Objectos|EI|0|2|1
+13|Analise de Sistemas|EI|0|2|1
+14|Sistemas Operativos|EI|0|2|1
+15|Aplicacoes para a Internet I|EI|0|2|1
+16|Usabilidade|EI|0|2|1
+17|Engenharia de Software I|EI|0|2|2
+18|Bases de Dados I|EI|0|2|2
+19|Aplicacoes para a Internet II|EI|0|2|2
+20|Redes de Comunicacao I|EI|0|2|2
+21|Programacao para Dispositivos Moveis|EI|0|2|2
+22|Projeto Integrado|EI|0|2|2
+23|Seguranca Informatica|EI|0|3|1
+24|Redes de Comunicacao III|EI|0|3|1
+25|Complementos de Sistemas Operativos|EI|0|3|1
+27|Sistemas Embebidos|EI|0|3|1
+28|Sistemas Distribuidos|EI|0|3|1
+29|Inteligencia Artificial|EI|0|3|2
+30|Engenharia de Software II|EI|0|3|2
+31|Empreededorismo e Gestao de Empresas|EI|0|3|2
